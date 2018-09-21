@@ -20,7 +20,8 @@ Interface View
 Deployment View
 Each section should summarizes the key architectural decisions documented in that view and explain why they were made.
 
-## Supplemental Specifications — This section lists the non-functional requirements of your system.
+## Supplemental Specifications — 
+This section lists the non-functional requirements of your system.
 
 ## Test Suite — 
 This test suite specifies how you will test your system and reports on how the testing went, including: Unit testing of your system modules (at levels 0 and 1) (if required by the instructor) System testing of your system functions (at levels 1 and 2) Usability testing Presentation Materials — This section includes the presentation materials for your two team presentations.
