@@ -1,13 +1,13 @@
 # Quest
 CS262 Team Application
 
-# Project Vision —
+## Project Vision —
 
 Team DragonsBreath is a team of charismatic, dynamic, and entrepreneurial undergraduates whose goal is to create an Android based scavenger hunt called Quest. Quest will include features such as QR code verification, leader boards, team creation, open-world exploration, realistic graphics, and full immersion. Team DragonsBreath hopes to create a fun app targeted at Freshman and CS 108 students who are unfamiliar with Calvin's campus.
 
 Quest, at its completion, will have a library of images taken from Calvin and a QR code associated with that image. Upon finding a code, the player will use their phone to scan and earn points. These points will be tracked and displayed for all users to see. Users will also be able to link up and make teams to pool their points against other teams.
 
-# Project Management Records — This section links your team’s task status and work loads (i.e., your Trello board and GitHub repos).
+## Project Management Records — This section links your team’s task status and work loads (i.e., your Trello board and GitHub repos).
 
 # N+1 Architectural Views — This section provides a variety of views of the system architecture, based on what the Unified Process calls a Software Architecture Document (SAD). This semester, we'll set N=4 by including the following views:
 
