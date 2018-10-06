@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Quest</string>
+    <string name="title_task_list">Task List</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="team_text">Team</string>
+    <string name="leader_board_text">Leaderboard</string>
+    <string name="enter_team_name_text">Enter a Team Name:</string>
+</resources>
