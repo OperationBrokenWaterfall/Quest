@@ -1,27 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigation_notifications"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/leader_board_text" />
+        android:id="@+id/leaderboard_fragment"
+        android:icon="@drawable/ic_insert_chart_black_24dp"
+        android:title="@string/title_leaderboard_fragment" />
     <item
-        android:id="@+id/navigation_task_list"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/title_task_list" />
+        android:id="@+id/task_list_fragment"
+        android:icon="@drawable/ic_content_paste_black_24dp"
+        android:title="@string/title_task_list_fragment" />
     <item
-        android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/team_text" />
-
-    <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="QR Scanner" />
-
-
-
-
-
-
-
+        android:id="@+id/qr_scanner_fragment"
+        android:icon="@drawable/ic_camera_alt_black_24dp"
+        android:title="@string/title_camera_fragment" />
 </menu>

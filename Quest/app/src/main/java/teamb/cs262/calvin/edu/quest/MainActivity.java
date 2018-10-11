@@ -7,20 +7,25 @@ import android.view.View;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
-    private EditText createTeamText;
+
+    private EditText TeamNameText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        createTeamText = findViewById(R.id.enter_team_name_field);
 
+        TeamNameText = findViewById(R.id.team_name_input);
     }
 
+    //when the create a team button is clicked, start the TeamsActivity
     public void switchToTeams(View view) {
+        //bundle to pass the team name on to the TeamsActivity
         Bundle bundle = new Bundle();
-        bundle.putString("team_name", createTeamText.getText().toString());
+        bundle.putString("team_name", TeamNameText.getText().toString());
         Intent intent = new Intent(this, TeamsActivity.class);
         intent.putExtras(bundle);
+        //start the TeamsActivity
         startActivity(intent);
     }
 }
