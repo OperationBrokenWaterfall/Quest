@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Quest</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="team_text">Team</string>
+    <string name="title_leaderboard_fragment">Leaderboard</string>
+    <string name="title_task_list_fragment">Task List</string>
+    <string name="title_camera_fragment"> QR Scanner</string>
+    <string name="enter_team_name_text">Enter a Team Name:</string>
+    <string name="welcome_message">Welcome to Quest</string>
+</resources>
