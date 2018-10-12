@@ -15,7 +15,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TeamNameText = findViewById(R.id.team_name_input);
+        TeamNameText = findViewById(R.id.enter_team_name_field);
+
+        getSupportActionBar().setTitle("Quest");
     }
 
     //when the create a team button is clicked, start the TeamsActivity

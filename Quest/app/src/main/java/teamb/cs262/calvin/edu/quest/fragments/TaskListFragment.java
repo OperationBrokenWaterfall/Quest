@@ -28,3 +28,4 @@ public class TaskListFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_task_list, container, false);
     }
 }
+
