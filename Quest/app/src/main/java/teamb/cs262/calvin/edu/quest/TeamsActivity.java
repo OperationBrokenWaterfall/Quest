@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import teamb.cs262.calvin.edu.quest.fragments.LeaderBoardFragment;
 import teamb.cs262.calvin.edu.quest.fragments.TaskListFragment;
@@ -23,12 +24,13 @@ public class TeamsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_teams);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        //set the action bar to the team name
+        startFragment(LeaderBoardFragment.newInstance());
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         String team = bundle.getString("team_name");
-        getSupportActionBar().setTitle("Team: " + team);
+
+        getSupportActionBar().setTitle("Quest");
+        getSupportActionBar().setSubtitle(team);
 
         //open into the TaskListFragment by default
         if (savedInstanceState == null) {
