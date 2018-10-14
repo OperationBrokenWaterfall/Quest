@@ -30,7 +30,7 @@ public class TeamsActivity extends AppCompatActivity {
         String team = bundle.getString("team_name");
 
         getSupportActionBar().setTitle("Quest");
-        getSupportActionBar().setSubtitle(team);
+        getSupportActionBar().setSubtitle("Team: " + team);
 
         //open into the TaskListFragment by default
         if (savedInstanceState == null) {
