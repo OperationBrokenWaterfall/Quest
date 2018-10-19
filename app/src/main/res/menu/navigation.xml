@@ -4,10 +4,12 @@
         android:id="@+id/leaderboard_fragment"
         android:icon="@drawable/ic_insert_chart_black_24dp"
         android:title="@string/title_leaderboard_fragment" />
+
     <item
         android:id="@+id/task_list_fragment"
         android:icon="@drawable/ic_content_paste_black_24dp"
         android:title="@string/title_task_list_fragment" />
+
     <item
         android:id="@+id/qr_scanner_fragment"
         android:icon="@drawable/ic_camera_alt_black_24dp"
