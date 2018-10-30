@@ -25,13 +25,11 @@ public class TaskListRecyclerViewAdapter extends RecyclerView.Adapter<TaskListRe
 
     private static final String TAG = "RecyclerViewAdapter";
 
-    private ArrayList<String> mImageNames = new ArrayList<>();
     private ArrayList<String> mImages = new ArrayList<>();
     private Context mContext;
 
-    public TaskListRecyclerViewAdapter(Context context, ArrayList<String> imageNames, ArrayList<String> images) {
+    public TaskListRecyclerViewAdapter(Context context, ArrayList<String> images) {
         mContext = context;
-        mImageNames = imageNames;
         mImages = images;
     }
 
@@ -52,35 +50,31 @@ public class TaskListRecyclerViewAdapter extends RecyclerView.Adapter<TaskListRe
                 .load(mImages.get(i))
                 .into(holder.image);
 
-        holder.imageName.setText(mImageNames.get(i));
-
-        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: clicked on: " + mImageNames.get(i));
-
-                Toast.makeText(mContext, mImageNames.get(i), Toast.LENGTH_SHORT).show();
-            }
-        });
+        Glide.with(mContext)
+                .asBitmap()
+                .load(mImages.get(i + 1))
+                .into(holder.image2);
     }
 
     @Override
     public int getItemCount() {
-        return mImageNames.size();
+        return mImages.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView image;
-        TextView imageName;
         CheckBox checkBox;
+        ImageView image2;
+        CheckBox checkBox2;
         RelativeLayout parentLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.imageView);
-            imageName = itemView.findViewById(R.id.image_name);
             checkBox = itemView.findViewById(R.id.checkBox);
+            image2 = itemView.findViewById(R.id.imageView2);
+            checkBox2 = itemView.findViewById(R.id.checkBox2);
             parentLayout = itemView.findViewById(R.id.parent_layout);
         }
     }
