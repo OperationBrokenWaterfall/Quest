@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,11 +27,13 @@ public class TaskListRecyclerViewAdapter extends RecyclerView.Adapter<TaskListRe
     private static final String TAG = "RecyclerViewAdapter";
 
     private ArrayList<String> mImages = new ArrayList<>();
+    private ArrayList<String> mImages2 = new ArrayList<>();
     private Context mContext;
 
-    public TaskListRecyclerViewAdapter(Context context, ArrayList<String> images) {
+    public TaskListRecyclerViewAdapter(Context context, ArrayList<String> images, ArrayList<String> images2) {
         mContext = context;
         mImages = images;
+        mImages2 = images2;
     }
 
     @NonNull
@@ -50,10 +53,16 @@ public class TaskListRecyclerViewAdapter extends RecyclerView.Adapter<TaskListRe
                 .load(mImages.get(i))
                 .into(holder.image);
 
-        Glide.with(mContext)
-                .asBitmap()
-                .load(mImages.get(i + 1))
-                .into(holder.image2);
+        try{
+            Glide.with(mContext)
+                    .asBitmap()
+                    .load(mImages2.get(i))
+                    .into(holder.image2);
+        } catch (Exception e) {
+            holder.image2.setVisibility(holder.image2.GONE);
+            holder.checkBox2.setVisibility(holder.checkBox2.GONE);
+        }
+
     }
 
     @Override
@@ -69,7 +78,7 @@ public class TaskListRecyclerViewAdapter extends RecyclerView.Adapter<TaskListRe
         CheckBox checkBox2;
         RelativeLayout parentLayout;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.imageView);
             checkBox = itemView.findViewById(R.id.checkBox);

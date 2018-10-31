@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.TaskListFragment">
+    tools:context=".fragments.TaskListFragment"
+    android:layout_marginBottom="?attr/actionBarSize">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -18,8 +19,9 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/task_list_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        android:layout_above="@id/navigation">
     </android.support.v7.widget.RecyclerView>
+
 
 </RelativeLayout>
