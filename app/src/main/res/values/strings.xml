@@ -9,14 +9,6 @@
     <string name="enter_team_name_text">Enter a Team Name:</string>
     <string name="welcome_message">Welcome to Quest</string>
 
-    <!-- Strings related to MainActivity-->
-    <string name="scan_barcode_button">Scan barcode</string>
-    <string name="no_barcode_captured">No barcode captured</string>
-    <string name="barcode_error_format">"Error reading barcode: %1$s"</string>
-
-    <!-- Strings related to barcode scanner -->
-    <string name="ok">OK</string>
-    <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
-    <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
-    <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
