@@ -56,13 +56,29 @@ public class TaskListFragment extends Fragment {
     private void initImageBitmaps() {
         Log.d(TAG, "initImageBitmaps");
 
-        mImageUrls.add("https://i.postimg.cc/bNVNnH3J/image.png");
+        mImageUrls.add("https://i.postimg.cc/rw7J4zfv/image.jpg");
 
-        mImageUrls2.add("https://i.postimg.cc/593t4Mz8/image-1.png");
+        mImageUrls2.add("https://i.postimg.cc/JhJQ5mgt/image-1.jpg");
 
-        mImageUrls.add("https://i.postimg.cc/L8q43YbV/image-2.png");
+        mImageUrls.add("https://i.postimg.cc/bJh96Wcg/image-2.jpg");
 
-        mImageUrls2.add("https://i.postimg.cc/kXggDhNz/image-3.png");
+        mImageUrls2.add("https://i.postimg.cc/sgMm154Y/image-3.jpg");
+
+        mImageUrls.add("https://i.postimg.cc/yd3CPJKc/IMG-20181101-100434246.jpg");
+
+        mImageUrls2.add("https://i.postimg.cc/RVBx7VDJ/IMG-20181101-180824927.jpg");
+
+        mImageUrls.add("https://i.postimg.cc/8ch82qjC/IMG-20181101-180954395.jpg");
+
+        mImageUrls2.add("https://i.postimg.cc/MHk2rWZ4/IMG-20181101-181328330.jpg");
+
+        mImageUrls.add("https://i.postimg.cc/DyPkBk9j/IMG-20181101-181507293.jpg");
+
+        mImageUrls2.add("https://i.postimg.cc/1R6ZVNJZ/IMG-20181101-181621138.jpg");
+
+        mImageUrls.add("https://i.postimg.cc/x1jrZpY0/IMG-20181101-181925713.jpg");
+
+        mImageUrls2.add("https://i.postimg.cc/mr5GCYvT/IMG-20181101-182303299.jpg");
 
         mImageUrls.add("https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Microsoft_Word_2013_logo.svg/2000px-Microsoft_Word_2013_logo.svg.png");
 
