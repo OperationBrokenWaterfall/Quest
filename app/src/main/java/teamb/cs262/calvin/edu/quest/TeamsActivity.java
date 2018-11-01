@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import teamb.cs262.calvin.edu.quest.fragments.LeaderBoardFragment;
-import teamb.cs262.calvin.edu.quest.fragments.QRCodeFragment;
 import teamb.cs262.calvin.edu.quest.fragments.TaskListFragment;
 
 public class TeamsActivity extends AppCompatActivity {
@@ -49,7 +48,6 @@ public class TeamsActivity extends AppCompatActivity {
             //Start the fragment that is clicked
             switch (item.getItemId()) {
                 case R.id.qr_scanner_fragment:
-                    fragment = new QRCodeFragment();
                     break;
                 case R.id.leaderboard_fragment:
                     fragment = new LeaderBoardFragment();
@@ -57,7 +55,6 @@ public class TeamsActivity extends AppCompatActivity {
                 case R.id.task_list_fragment:
                     fragment = new TaskListFragment();
                     break;
-
             }
             return startFragment(fragment);
         }
