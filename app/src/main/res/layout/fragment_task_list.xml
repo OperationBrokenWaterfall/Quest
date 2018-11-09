@@ -6,8 +6,6 @@
     tools:context=".fragments.TaskListFragment"
     android:layout_marginBottom="?attr/actionBarSize">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/task_list_recyclerview"
         android:layout_width="match_parent"

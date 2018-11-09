@@ -103,28 +103,6 @@ public class TaskListFragment extends Fragment {
         mImageUrls.add("https://i.postimg.cc/x1jrZpY0/IMG-20181101-181925713.jpg");
 
         mImageUrls2.add("https://i.postimg.cc/mr5GCYvT/IMG-20181101-182303299.jpg");
-
-        mImageUrls.add("https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Microsoft_Word_2013_logo.svg/2000px-Microsoft_Word_2013_logo.svg.png");
-
-        mImageUrls2.add("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Microsoft_PowerPoint_2013_logo.svg/2000px-Microsoft_PowerPoint_2013_logo.svg.png");
-
-        mImageUrls.add("https://static.makeuseof.com/wp-content/uploads/2015/12/onenote-quick-access-toolbar-intro-670x335.png");
-
-        mImageUrls2.add("https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Microsoft_Excel_2013_logo.svg/2000px-Microsoft_Excel_2013_logo.svg.png");
-
-        mImageUrls.add("https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Microsoft_Access_2013_logo.svg/2000px-Microsoft_Access_2013_logo.svg.png");
-
-        mImageUrls2.add("https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Microsoft_Publisher_2013_logo.svg/2000px-Microsoft_Publisher_2013_logo.svg.png");
-
-        mImageUrls.add("https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Microsoft_Office_Visio_%282013%E2%80%93present%29.svg/1200px-Microsoft_Office_Visio_%282013%E2%80%93present%29.svg.png");
-
-        mImageUrls2.add("https://bitabiz.dk/wp-content/uploads/2017/03/microsoft-exchange-logo.png");
-
-        mImageUrls.add("https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Microsoft_Outlook_2013_logo.svg/2000px-Microsoft_Outlook_2013_logo.svg.png");
-
-        mImageUrls2.add("https://www.v3.co.uk/w-images/d2560663-ef37-4162-a3ca-24a6ef686791/0/microsoftsharepointlogo-580x358.png");
-
-        mImageUrls.add("https://www.v3.co.uk/w-images/c20bb057-6906-4eda-997f-c1784d48b2f0/0/onedrivelogomicrosoft-580x358.png");
     }
 
 }
