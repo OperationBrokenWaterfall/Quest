@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -61,6 +62,8 @@ public class TaskListFragment extends Fragment {
         Bundle bundle = getArguments();
         if(bundle != null) {
             System.out.println("Task List has received this deciphered QR Code: " + bundle.getString("QR"));
+            Toast.makeText(getContext(), bundle.getString("QR"), Toast.LENGTH_LONG).show();
+
             Vibrator v = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
             // Vibrate for 500 milliseconds
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
