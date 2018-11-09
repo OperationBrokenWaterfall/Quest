@@ -49,7 +49,7 @@ public class TeamsActivity extends AppCompatActivity {
             //Start the fragment that is clicked
             switch (item.getItemId()) {
                 case R.id.qr_scanner_fragment:
-                    fragment = new QRCodeFragment();
+                    fragment = QRCodeFragment.newInstance();
                     break;
                 case R.id.leaderboard_fragment:
                     fragment = new LeaderBoardFragment();

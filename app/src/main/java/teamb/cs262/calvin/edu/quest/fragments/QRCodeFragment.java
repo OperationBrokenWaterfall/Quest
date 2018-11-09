@@ -3,15 +3,18 @@ package teamb.cs262.calvin.edu.quest.fragments;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 
 import teamb.cs262.calvin.edu.quest.R;
+
+
 
 
 public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCodeReadListener {
@@ -19,9 +22,11 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
     private TextView resultTextView;
     private QRCodeReaderView qrCodeReaderView;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -47,15 +52,27 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
         // Use this function to set back camera preview
         qrCodeReaderView.setBackCamera();
 
+
+        qrCodeReaderView.startCamera();
         return rootView;
     }
+
+
 
     // Called when a QR is decoded
     // "text" : the text encoded in QR
     // "points" : points where QR control points are placed in View
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
-        System.out.println(text);
+        Fragment fragment = TaskListFragment.newInstance();
+        Bundle bundle = new Bundle();
+        bundle.putString("QR", text);
+        fragment.setArguments(bundle);
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -70,8 +87,8 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
         qrCodeReaderView.stopCamera();
     }
 
-    public static TaskListFragment newInstance() {
-        TaskListFragment fragment = new TaskListFragment();
+    public static QRCodeFragment newInstance() {
+        QRCodeFragment fragment = new QRCodeFragment();
         return fragment;
     }
 
