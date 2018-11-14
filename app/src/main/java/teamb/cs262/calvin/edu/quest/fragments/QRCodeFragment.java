@@ -23,6 +23,7 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
     private QRCodeReaderView qrCodeReaderView;
 
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +65,7 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
     // "points" : points where QR control points are placed in View
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
-        Fragment fragment = TaskListFragment.newInstance();
+        Fragment fragment = LeaderBoardFragment.newInstance();
         Bundle bundle = new Bundle();
         bundle.putString("QR", text);
         fragment.setArguments(bundle);
