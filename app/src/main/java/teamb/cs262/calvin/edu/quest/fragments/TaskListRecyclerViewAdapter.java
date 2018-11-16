@@ -1,6 +1,7 @@
 package teamb.cs262.calvin.edu.quest.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,7 +19,9 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import teamb.cs262.calvin.edu.quest.MainActivity;
 import teamb.cs262.calvin.edu.quest.R;
+import teamb.cs262.calvin.edu.quest.expandedImages;
 
 import static android.support.constraint.Constraints.TAG;
 
@@ -27,13 +30,11 @@ public class TaskListRecyclerViewAdapter extends RecyclerView.Adapter<TaskListRe
     private static final String TAG = "RecyclerViewAdapter";
 
     private ArrayList<String> mImages = new ArrayList<>();
-    private ArrayList<String> mImages2 = new ArrayList<>();
     private Context mContext;
 
-    public TaskListRecyclerViewAdapter(Context context, ArrayList<String> images, ArrayList<String> images2) {
+    public TaskListRecyclerViewAdapter(Context context, ArrayList<String> images) {
         mContext = context;
         mImages = images;
-        mImages2 = images2;
     }
 
     @NonNull
@@ -53,15 +54,15 @@ public class TaskListRecyclerViewAdapter extends RecyclerView.Adapter<TaskListRe
                 .load(mImages.get(i))
                 .into(holder.image);
 
-        try{
-            Glide.with(mContext)
-                    .asBitmap()
-                    .load(mImages2.get(i))
-                    .into(holder.image2);
-        } catch (Exception e) {
-            holder.image2.setVisibility(holder.image2.GONE);
-            holder.checkBox2.setVisibility(holder.checkBox2.GONE);
-        }
+
+        holder.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(mContext, expandedImages.class);
+                intent.putExtra("image_url", mImages.get(i));
+                mContext.startActivity(intent);
+            }
+        });
 
     }
 
@@ -73,17 +74,11 @@ public class TaskListRecyclerViewAdapter extends RecyclerView.Adapter<TaskListRe
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView image;
-        CheckBox checkBox;
-        ImageView image2;
-        CheckBox checkBox2;
         RelativeLayout parentLayout;
 
         public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.imageView);
-            checkBox = itemView.findViewById(R.id.checkBox);
-            image2 = itemView.findViewById(R.id.imageView2);
-            checkBox2 = itemView.findViewById(R.id.checkBox2);
             parentLayout = itemView.findViewById(R.id.parent_layout);
         }
     }
