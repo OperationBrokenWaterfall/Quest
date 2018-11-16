@@ -25,8 +25,6 @@ public class TaskListFragment extends Fragment {
     private static final String TAG = "TaskListFragment";
 
     private ArrayList<String> mImageUrls = new ArrayList<>();
-    private ArrayList<String> mImageUrls2 = new ArrayList<>();
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +48,7 @@ public class TaskListFragment extends Fragment {
 
         RecyclerView recyclerView = rootView.findViewById(R.id.task_list_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        TaskListRecyclerViewAdapter adapter = new TaskListRecyclerViewAdapter(getActivity(), mImageUrls, mImageUrls2);
+        TaskListRecyclerViewAdapter adapter = new TaskListRecyclerViewAdapter(getActivity(), mImageUrls);
         recyclerView.setAdapter(adapter);
 
         return rootView;
@@ -82,27 +80,27 @@ public class TaskListFragment extends Fragment {
 
         mImageUrls.add("https://i.postimg.cc/rw7J4zfv/image.jpg");
 
-        mImageUrls2.add("https://i.postimg.cc/JhJQ5mgt/image-1.jpg");
+        mImageUrls.add("https://i.postimg.cc/JhJQ5mgt/image-1.jpg");
 
         mImageUrls.add("https://i.postimg.cc/bJh96Wcg/image-2.jpg");
 
-        mImageUrls2.add("https://i.postimg.cc/sgMm154Y/image-3.jpg");
+        mImageUrls.add("https://i.postimg.cc/sgMm154Y/image-3.jpg");
 
         mImageUrls.add("https://i.postimg.cc/yd3CPJKc/IMG-20181101-100434246.jpg");
 
-        mImageUrls2.add("https://i.postimg.cc/RVBx7VDJ/IMG-20181101-180824927.jpg");
+        mImageUrls.add("https://i.postimg.cc/RVBx7VDJ/IMG-20181101-180824927.jpg");
 
         mImageUrls.add("https://i.postimg.cc/8ch82qjC/IMG-20181101-180954395.jpg");
 
-        mImageUrls2.add("https://i.postimg.cc/MHk2rWZ4/IMG-20181101-181328330.jpg");
+        mImageUrls.add("https://i.postimg.cc/MHk2rWZ4/IMG-20181101-181328330.jpg");
 
         mImageUrls.add("https://i.postimg.cc/DyPkBk9j/IMG-20181101-181507293.jpg");
 
-        mImageUrls2.add("https://i.postimg.cc/1R6ZVNJZ/IMG-20181101-181621138.jpg");
+        mImageUrls.add("https://i.postimg.cc/1R6ZVNJZ/IMG-20181101-181621138.jpg");
 
         mImageUrls.add("https://i.postimg.cc/x1jrZpY0/IMG-20181101-181925713.jpg");
 
-        mImageUrls2.add("https://i.postimg.cc/mr5GCYvT/IMG-20181101-182303299.jpg");
+        mImageUrls.add("https://i.postimg.cc/mr5GCYvT/IMG-20181101-182303299.jpg");
     }
 
 }
