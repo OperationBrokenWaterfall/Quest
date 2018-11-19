@@ -33,8 +33,7 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ExpandedImages"
-            android:screenOrientation="portrait"
-            android:parentActivityName="teamb.cs262.calvin.edu.quest.TeamsActivity"></activity>
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
