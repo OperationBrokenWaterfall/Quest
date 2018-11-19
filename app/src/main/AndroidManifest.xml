@@ -31,7 +31,10 @@
             android:name=".TeamsActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".expandedImages"></activity>
+        <activity
+            android:name=".ExpandedImages"
+            android:screenOrientation="portrait"
+            android:parentActivityName="teamb.cs262.calvin.edu.quest.TeamsActivity"></activity>
     </application>
 
 </manifest>
