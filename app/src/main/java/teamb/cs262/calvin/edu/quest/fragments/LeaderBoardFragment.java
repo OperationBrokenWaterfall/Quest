@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,9 @@ import teamb.cs262.calvin.edu.quest.R;
 
 public class LeaderBoardFragment extends Fragment {
 
-    TextView score;
+    private TextView score;
+    private BottomNavigationView navigation;
+
     static int score_value = 0;
     public static LeaderBoardFragment newInstance() {
         LeaderBoardFragment fragment = new LeaderBoardFragment();
@@ -32,9 +35,13 @@ public class LeaderBoardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        navigation = (BottomNavigationView) getActivity().findViewById(R.id.navigation);
+
         // Inflate the layout for this fragment
         View rootview = inflater.inflate(R.layout.fragment_leader_board, container, false);
         score = rootview.findViewById(R.id.team_score);
+
         return rootview;
     }
 
@@ -43,6 +50,8 @@ public class LeaderBoardFragment extends Fragment {
         super.onResume();
         Bundle bundle = getArguments();
         if(bundle != null && bundle.containsKey("QR")) {
+            navigation.setSelectedItemId(R.id.leaderboard_fragment);
+
             score_value += 1;
             score.setText(String.valueOf(score_value));
 
@@ -59,5 +68,4 @@ public class LeaderBoardFragment extends Fragment {
             }
         }
     }
-
 }
