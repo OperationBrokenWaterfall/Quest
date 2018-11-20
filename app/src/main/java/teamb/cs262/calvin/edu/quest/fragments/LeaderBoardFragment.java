@@ -19,7 +19,6 @@ import teamb.cs262.calvin.edu.quest.R;
 public class LeaderBoardFragment extends Fragment {
 
     private TextView score;
-    private BottomNavigationView navigation;
 
     static int score_value = 0;
     public static LeaderBoardFragment newInstance() {
@@ -36,8 +35,6 @@ public class LeaderBoardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        navigation = (BottomNavigationView) getActivity().findViewById(R.id.navigation);
-
         // Inflate the layout for this fragment
         View rootview = inflater.inflate(R.layout.fragment_leader_board, container, false);
         score = rootview.findViewById(R.id.team_score);
@@ -50,7 +47,6 @@ public class LeaderBoardFragment extends Fragment {
         super.onResume();
         Bundle bundle = getArguments();
         if(bundle != null && bundle.containsKey("QR")) {
-            navigation.setSelectedItemId(R.id.leaderboard_fragment);
 
             score_value += 1;
             score.setText(String.valueOf(score_value));
