@@ -1,5 +1,6 @@
 package teamb.cs262.calvin.edu.quest.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,12 +20,36 @@ import java.util.ArrayList;
 
 import teamb.cs262.calvin.edu.quest.R;
 
+/*
+ * TaskListFragment is a singleton
+ * To get an instance of this Fragment call TaskListFragment.getInstance()
+ * rather than new TaskListFragment. This ensures there are duplicated Fragments
+ */
 
 public class TaskListFragment extends Fragment {
 
     private static final String TAG = "TaskListFragment";
 
     private ArrayList<String> mImageUrls = new ArrayList<>();
+
+    private static TaskListFragment instance;
+
+    @SuppressLint("ValidFragment")
+    private TaskListFragment() {
+        super();
+    }
+
+    public static TaskListFragment getInstance() {
+        if(instance == null) {
+            instance = newInstance();
+        }
+        return instance;
+    }
+
+    private static TaskListFragment newInstance() {
+        TaskListFragment fragment = new TaskListFragment();
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,11 +58,6 @@ public class TaskListFragment extends Fragment {
 
         Log.d(TAG, "onCreate: started");
         initImageBitmaps();
-    }
-
-    public static TaskListFragment newInstance() {
-        TaskListFragment fragment = new TaskListFragment();
-        return fragment;
     }
 
     @Override

@@ -25,7 +25,7 @@ public class TeamsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_teams);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        startFragment(LeaderBoardFragment.newInstance());
+        startFragment(LeaderBoardFragment.getInstance());
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         String team = bundle.getString("team_name");
@@ -49,13 +49,13 @@ public class TeamsActivity extends AppCompatActivity {
             //Start the fragment that is clicked
             switch (item.getItemId()) {
                 case R.id.qr_scanner_fragment:
-                    fragment = QRCodeFragment.newInstance();
+                    fragment = QRCodeFragment.getInstance();
                     break;
                 case R.id.leaderboard_fragment:
-                    fragment = new LeaderBoardFragment();
+                    fragment = LeaderBoardFragment.getInstance();
                     break;
                 case R.id.task_list_fragment:
-                    fragment = new TaskListFragment();
+                    fragment = TaskListFragment.getInstance();
                     break;
 
             }
