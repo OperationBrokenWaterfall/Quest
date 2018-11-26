@@ -76,19 +76,8 @@ public class ExpandedImages extends AppCompatActivity implements GestureDetector
 
     @Override
     public boolean onFling(MotionEvent motionEvent1, MotionEvent motionEvent2, float X, float Y) {
-        if(motionEvent1.getY() - motionEvent2.getY() > 50){
 
-            //Toast.makeText(ExpandedImages.this , " Swipe Up " , Toast.LENGTH_LONG).show();
-            return true;
-        }
-
-        if(motionEvent2.getY() - motionEvent1.getY() > 50){
-
-            //Toast.makeText(ExpandedImages.this , " Swipe Down " , Toast.LENGTH_LONG).show();
-            return true;
-        }
-
-        if(motionEvent1.getX() - motionEvent2.getX() > 50){
+        if(motionEvent1.getX() - motionEvent2.getX() > 30){
 
             //Toast.makeText(ExpandedImages.this , " Swipe Left " , Toast.LENGTH_LONG).show();
             if (imgNum != mImages.size() - 1) {
@@ -108,7 +97,7 @@ public class ExpandedImages extends AppCompatActivity implements GestureDetector
             return true;
         }
 
-        if(motionEvent2.getX() - motionEvent1.getX() > 50) {
+        if(motionEvent2.getX() - motionEvent1.getX() > 30) {
 
             //Toast.makeText(ExpandedImages.this, " Swipe Right ", Toast.LENGTH_LONG).show();
             if (imgNum != 0) {
