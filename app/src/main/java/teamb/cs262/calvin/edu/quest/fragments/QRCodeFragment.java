@@ -3,6 +3,7 @@ package teamb.cs262.calvin.edu.quest.fragments;
 import android.annotation.SuppressLint;
 import android.graphics.PointF;
 import android.os.Bundle;
+import android.support.design.internal.BottomNavigationMenu;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -114,6 +115,11 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
     public void onPause() {
         super.onPause();
         qrCodeReaderView.stopCamera();
+    }
+    
+    public static QRCodeFragment newInstance() {
+        QRCodeFragment fragment = new QRCodeFragment();
+        return fragment;
     }
 }
 
