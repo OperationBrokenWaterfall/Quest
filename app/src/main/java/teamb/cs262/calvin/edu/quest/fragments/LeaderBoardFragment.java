@@ -23,7 +23,8 @@ import teamb.cs262.calvin.edu.quest.R;
  */
 public class LeaderBoardFragment extends Fragment {
 
-    TextView score;
+    private TextView score;
+
     static int score_value = 0;
 
 
@@ -56,9 +57,11 @@ public class LeaderBoardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View rootview = inflater.inflate(R.layout.fragment_leader_board, container, false);
         score = rootview.findViewById(R.id.team_score);
+
         return rootview;
     }
 
@@ -85,5 +88,4 @@ public class LeaderBoardFragment extends Fragment {
             bundle.remove("QR");
         }
     }
-
 }
