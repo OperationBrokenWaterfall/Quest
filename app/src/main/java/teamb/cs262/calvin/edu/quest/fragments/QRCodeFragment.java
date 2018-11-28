@@ -1,8 +1,8 @@
 package teamb.cs262.calvin.edu.quest.fragments;
 
+import android.annotation.SuppressLint;
 import android.graphics.PointF;
 import android.os.Bundle;
-import android.support.design.internal.BottomNavigationMenu;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,16 +18,42 @@ import teamb.cs262.calvin.edu.quest.R;
 
 
 
-
+/*
+ * QRCodeFragment is a singleton
+ * To get an instance of this Fragment call QRCodeFragment.getInstance()
+ * rather than new QRCodeFragment. This ensures there are duplicated Fragments
+ */
 public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCodeReadListener {
 
     private TextView resultTextView;
     private QRCodeReaderView qrCodeReaderView;
 
+    private BottomNavigationView nav;
+
+    private static QRCodeFragment instance;
+
+    @SuppressLint("ValidFragment")
+    private QRCodeFragment() {
+        super();
+    }
+
+    public static QRCodeFragment getInstance() {
+        if(instance == null) {
+            instance = newInstance();
+        }
+        return instance;
+    }
+
+    private static QRCodeFragment newInstance() {
+        QRCodeFragment fragment = new QRCodeFragment();
+        return fragment;
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        nav = (BottomNavigationView) getActivity().findViewById(R.id.navigation);
 
     }
 
@@ -66,7 +92,7 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
     // "points" : points where QR control points are placed in View
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
-        Fragment fragment = LeaderBoardFragment.newInstance();
+        Fragment fragment = LeaderBoardFragment.getInstance();
         Bundle bundle = new Bundle();
         bundle.putString("QR", text);
         fragment.setArguments(bundle);
@@ -75,6 +101,7 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
         fragmentTransaction.replace(R.id.container, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+        nav.setSelectedItemId(R.id.leaderboard_fragment);
     }
 
     @Override
@@ -88,11 +115,5 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
         super.onPause();
         qrCodeReaderView.stopCamera();
     }
-
-    public static QRCodeFragment newInstance() {
-        QRCodeFragment fragment = new QRCodeFragment();
-        return fragment;
-    }
-
 }
 

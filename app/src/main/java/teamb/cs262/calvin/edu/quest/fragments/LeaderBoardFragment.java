@@ -1,5 +1,6 @@
 package teamb.cs262.calvin.edu.quest.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,13 +16,34 @@ import android.widget.Toast;
 
 import teamb.cs262.calvin.edu.quest.R;
 
-
+/*
+ * LeaderBoardFragment is a singleton
+ * To get an instance of this Fragment call LeaderBoardFragment.getInstance()
+ * rather than new LeaderBoardFragment. This ensures there are duplicated Fragments
+ */
 public class LeaderBoardFragment extends Fragment {
 
     private TextView score;
 
     static int score_value = 0;
-    public static LeaderBoardFragment newInstance() {
+
+
+
+    private static LeaderBoardFragment instance;
+
+    @SuppressLint("ValidFragment")
+    private LeaderBoardFragment() {
+        super();
+    }
+
+    public static LeaderBoardFragment getInstance() {
+        if(instance == null) {
+            instance = newInstance();
+        }
+        return instance;
+    }
+
+    private static LeaderBoardFragment newInstance() {
         LeaderBoardFragment fragment = new LeaderBoardFragment();
         return fragment;
     }
@@ -29,6 +51,7 @@ public class LeaderBoardFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -62,6 +85,7 @@ public class LeaderBoardFragment extends Fragment {
                 //deprecated in API 26
                 v.vibrate(500);
             }
+            bundle.remove("QR");
         }
     }
 }
