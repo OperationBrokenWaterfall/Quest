@@ -18,7 +18,7 @@ import teamb.cs262.calvin.edu.quest.R;
 
 
 
-/*
+/**
  * QRCodeFragment is a singleton
  * To get an instance of this Fragment call QRCodeFragment.getInstance()
  * rather than new QRCodeFragment. This ensures there are duplicated Fragments
@@ -30,13 +30,17 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
 
     private BottomNavigationView nav;
 
-    private static QRCodeFragment instance;
+    private static QRCodeFragment instance; // singleton instance
 
     @SuppressLint("ValidFragment")
     private QRCodeFragment() {
         super();
     }
 
+    /**
+     * This returns the singleton QRCodeFragment instance
+     * @return QRCodeFragment instance
+     */
     public static QRCodeFragment getInstance() {
         if(instance == null) {
             instance = newInstance();
@@ -44,6 +48,10 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
         return instance;
     }
 
+    /**
+     * Creates a new QRCodeFragment instance
+     * @return fragment
+     */
     private static QRCodeFragment newInstance() {
         QRCodeFragment fragment = new QRCodeFragment();
         return fragment;
@@ -86,10 +94,12 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
     }
 
 
-
-    // Called when a QR is decoded
-    // "text" : the text encoded in QR
-    // "points" : points where QR control points are placed in View
+    /**
+     * Called when a QR is decoded
+     *
+     * @param text : the text encoded in QR code
+     * @param points : points where QR control points are placed in View
+     */
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
         Fragment fragment = LeaderBoardFragment.getInstance();

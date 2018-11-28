@@ -14,16 +14,27 @@ import com.github.chrisbanes.photoview.PhotoView;
 
 import java.util.ArrayList;
 
+/**
+ * This class expands the thumbnail images that are in the recyclerView in the TaskListFragment.
+ * The images are opened in a new activity and displayed in a imageView that takes up the whole
+ * phone screen.
+ */
 public class ExpandedImages extends AppCompatActivity implements GestureDetector.OnGestureListener, View.OnTouchListener {
 
 
     private PhotoView image;
     private Bundle bundle;
     private int imgNum;
-    private ArrayList<String> mImages = new ArrayList();
+    private ArrayList<String> mImages = new ArrayList(); // stores the image urls
     GestureDetector gestureDetector;
 
 
+    /**
+     * When created show the originally desired expanded image from the recyclerView in the
+     * TaskListFragment.  Set up a gesture detector to look for left/right swipes.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,9 +53,15 @@ public class ExpandedImages extends AppCompatActivity implements GestureDetector
                 .asBitmap()
                 .load(mImages.get(imgNum))
                 .into(image);
-
     }
 
+    /**
+     * Create a gesture detector to allow for swiping left/right between enlarged images
+     * for easier viewing.
+     *
+     * @param motionEvent
+     * @return
+     */
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
         return gestureDetector.onTouchEvent(motionEvent);
@@ -74,12 +91,19 @@ public class ExpandedImages extends AppCompatActivity implements GestureDetector
     public void onLongPress(MotionEvent e) {
     }
 
+    /**
+     * This looks for left/right fling gestures and will move to the next image on a swipe.
+     *
+     * @param motionEvent1
+     * @param motionEvent2
+     * @param X
+     * @param Y
+     * @return
+     */
     @Override
     public boolean onFling(MotionEvent motionEvent1, MotionEvent motionEvent2, float X, float Y) {
-
+        //Swiped from right to left
         if(motionEvent1.getX() - motionEvent2.getX() > 30){
-
-            //Toast.makeText(ExpandedImages.this , " Swipe Left " , Toast.LENGTH_LONG).show();
             if (imgNum != mImages.size() - 1) {
                 Glide.with(this)
                         .asBitmap()
@@ -92,14 +116,11 @@ public class ExpandedImages extends AppCompatActivity implements GestureDetector
                         .load(mImages.get(imgNum))
                         .into(image);
             }
-
-
             return true;
         }
 
+        //Swiped left to right
         if(motionEvent2.getX() - motionEvent1.getX() > 30) {
-
-            //Toast.makeText(ExpandedImages.this, " Swipe Right ", Toast.LENGTH_LONG).show();
             if (imgNum != 0) {
                 Glide.with(this)
                         .asBitmap()
@@ -112,13 +133,9 @@ public class ExpandedImages extends AppCompatActivity implements GestureDetector
                         .load(mImages.get(imgNum))
                         .into(image);
             }
-
             return true;
         }
-        else {
-
-            return true ;
-        }
+        else { return true ; }
     }
 
     @Override

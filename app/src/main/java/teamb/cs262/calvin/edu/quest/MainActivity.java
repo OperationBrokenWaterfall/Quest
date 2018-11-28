@@ -6,6 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+
+/**
+ * This the main activity that Launches when the app opens.
+ * Here one person from a team, that has an android phone will
+ * enter the team name.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private EditText TeamNameText;
@@ -20,14 +26,16 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Quest");
     }
 
-    //when the create a team button is clicked, start the TeamsActivity
+    /**
+     * This function is called when the LOGIN button is pressed.
+     * This launches the TeamsActivity and passes on a bundle containing the team name.
+     * @param view
+     */
     public void switchToTeams(View view) {
-        //bundle to pass the team name on to the TeamsActivity
         Bundle bundle = new Bundle();
         bundle.putString("team_name", TeamNameText.getText().toString());
         Intent intent = new Intent(this, TeamsActivity.class);
-        intent.putExtras(bundle);
-        //start the TeamsActivity
+        intent.putExtras(bundle); // pass on the team name
         startActivity(intent);
     }
 }

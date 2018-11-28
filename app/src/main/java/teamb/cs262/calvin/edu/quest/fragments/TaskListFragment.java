@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import teamb.cs262.calvin.edu.quest.R;
 
-/*
+/**
  * TaskListFragment is a singleton
  * To get an instance of this Fragment call TaskListFragment.getInstance()
  * rather than new TaskListFragment. This ensures there are duplicated Fragments
@@ -30,15 +30,19 @@ public class TaskListFragment extends Fragment {
 
     private static final String TAG = "TaskListFragment";
 
-    private ArrayList<String> mImageUrls = new ArrayList<>();
+    private ArrayList<String> mImageUrls = new ArrayList<>(); // store the image urls
 
-    private static TaskListFragment instance;
+    private static TaskListFragment instance; // singleton instance
 
     @SuppressLint("ValidFragment")
     private TaskListFragment() {
         super();
     }
 
+    /**
+     * This returns the singleton TaskListFragment instance
+     * @return TaskListFragment instance
+     */
     public static TaskListFragment getInstance() {
         if(instance == null) {
             instance = newInstance();
@@ -46,6 +50,10 @@ public class TaskListFragment extends Fragment {
         return instance;
     }
 
+    /**
+     * Creates a new TaskListFragment instance
+     * @return fragment
+     */
     private static TaskListFragment newInstance() {
         TaskListFragment fragment = new TaskListFragment();
         return fragment;
@@ -60,6 +68,14 @@ public class TaskListFragment extends Fragment {
         initImageBitmaps();
     }
 
+    /**
+     * This method creates a new TaskListRecyclerViewAdapter to put the images into the
+     * recyclerView that this fragment contains.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -74,6 +90,11 @@ public class TaskListFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * This method also makes haptic feedback when it is resumed.  We may later make it so that
+     * the app returns to the Task List when a QR code is scanned rather than the leaderBoard
+     * fragment.
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -90,11 +111,16 @@ public class TaskListFragment extends Fragment {
                 //deprecated in API 26
                 v.vibrate(500);
             }
+            bundle.remove("QR"); // this fixes score increment and vibrate on restart
         }
     }
 
 
-    //add the images for the hunt locations
+    /**
+     * Create the arraylist of the images we are using for the scavenger hunt.
+     * The images are hosted at: https://postimg.cc/gallery/fsqlmqli/
+     * Our application pulls in these images using the Glide library.
+     */
     private void initImageBitmaps() {
         Log.d(TAG, "initImageBitmaps");
 

@@ -14,14 +14,18 @@ import teamb.cs262.calvin.edu.quest.fragments.LeaderBoardFragment;
 import teamb.cs262.calvin.edu.quest.fragments.QRCodeFragment;
 import teamb.cs262.calvin.edu.quest.fragments.TaskListFragment;
 
+/**
+ * This activity is the hub of our UI, containing the three main fragments
+ * which drive the scavenger hunt.
+ */
 public class TeamsActivity extends AppCompatActivity {
-
 
     private Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_teams);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -39,7 +43,10 @@ public class TeamsActivity extends AppCompatActivity {
         }
     }
 
-    //listen for a click on the navigation
+    /**
+     * This creates a listener for the bottom navigation menu and switches to the user
+     * selected fragment.
+     */
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -63,7 +70,12 @@ public class TeamsActivity extends AppCompatActivity {
         }
     };
 
-    //this method opens a fragment if it is not opened
+    /**
+     * This function is called within onNavigationItemSelected() and actually switches the fragment
+     * to whichever is tapped.
+     * @param fragment
+     * @return
+     */
     private boolean startFragment(Fragment fragment) {
         if(fragment != null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -74,7 +86,10 @@ public class TeamsActivity extends AppCompatActivity {
         return false;
     }
 
-    //disable the android back button
+    /**
+     * Disable the back button for the TeamsActivity page.
+     * We don't want users going back after they login.
+     */
     @Override
     public void onBackPressed() { }
 

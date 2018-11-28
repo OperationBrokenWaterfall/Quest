@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import teamb.cs262.calvin.edu.quest.R;
 
-/*
+/**
  * LeaderBoardFragment is a singleton
  * To get an instance of this Fragment call LeaderBoardFragment.getInstance()
  * rather than new LeaderBoardFragment. This ensures there are duplicated Fragments
@@ -24,18 +24,22 @@ import teamb.cs262.calvin.edu.quest.R;
 public class LeaderBoardFragment extends Fragment {
 
     private TextView score;
-
     static int score_value = 0;
 
 
 
-    private static LeaderBoardFragment instance;
+    private static LeaderBoardFragment instance;  // singleton instance
 
     @SuppressLint("ValidFragment")
     private LeaderBoardFragment() {
         super();
     }
 
+
+    /**
+     * This returns the singleton LeaderBoardFragment instance
+     * @return LeaderBoardFragment instance
+     */
     public static LeaderBoardFragment getInstance() {
         if(instance == null) {
             instance = newInstance();
@@ -43,6 +47,10 @@ public class LeaderBoardFragment extends Fragment {
         return instance;
     }
 
+    /**
+     * Creates a new LeaderBoardFragment instance
+     * @return fragment
+     */
     private static LeaderBoardFragment newInstance() {
         LeaderBoardFragment fragment = new LeaderBoardFragment();
         return fragment;
@@ -65,6 +73,10 @@ public class LeaderBoardFragment extends Fragment {
         return rootview;
     }
 
+    /**
+     * This is called when the LeaderBoardFragment is resumed.  This is called after a QR code is
+     * scanned and provides the haptic feedback confirming the QR code was scanned.
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -85,7 +97,7 @@ public class LeaderBoardFragment extends Fragment {
                 //deprecated in API 26
                 v.vibrate(500);
             }
-            bundle.remove("QR");
+            bundle.remove("QR"); // this fixes score increment and vibrate on restart
         }
     }
 }
