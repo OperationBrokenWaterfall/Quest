@@ -36,14 +36,14 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
     android:layout_width="fill_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:stretchColumns="0,1,2"
     android:gravity="center">
 
 
     <TableRow
         android:id="@+id/header"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_alignParentTop="true"
         android:background="#ffffff"
@@ -52,7 +52,7 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_column="0"
             android:layout_margin="1dp"
             android:background="#FFFFFF"
@@ -62,7 +62,7 @@
             android:textStyle="bold" />
         <TextView
             android:layout_width="225dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_column="1"
             android:layout_margin="1dp"
             android:background="#FFFFFF"
@@ -72,7 +72,7 @@
             android:textStyle="bold"/>
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_column="2"
             android:layout_margin="1dp"
             android:background="#FFFFFF"
@@ -84,16 +84,14 @@
 
     <TableRow
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_margin="1dp"
         android:layout_weight="1"
-        android:background="#ffffff"
-
-        >
+        android:background="#ffffff">
 
         <TextView
             android:layout_width="2dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_column="0"
             android:layout_margin="1dp"
             android:background="#FFFFFF"
@@ -103,149 +101,139 @@
 
         <TextView
             android:layout_width="225dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_column="1"
             android:layout_margin="1dp"
             android:background="#FFFFFF"
             android:gravity="center"
             android:text="Team B"
-            android:textAppearance="?android:attr/textAppearanceLarge"/>
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:id="@+id/team_score"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_column="2"
             android:layout_margin="1dp"
             android:background="#FFFFFF"
             android:gravity="center"
-            android:text="@id/team_score"
-            android:textAppearance="?android:attr/textAppearanceLarge"/>
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceLarge" />
     </TableRow>
 
     <TableRow
-        android:background="#ffffff"
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_margin="1dp"
         android:layout_weight="1"
-        >
+        android:background="#ffffff">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_margin="1dp"
+            android:background="#FFFFFF"
+            android:gravity="center"
             android:text="2"
-            android:layout_margin="1dp"
-            android:layout_column="0"
-            android:background="#FFFFFF"
-            android:gravity="center"
-            />
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_margin="1dp"
+            android:background="#FFFFFF"
+            android:gravity="center"
             android:text="Team A"
-            android:layout_margin="1dp"
-            android:layout_column="1"
-            android:background="#FFFFFF"
-            android:gravity="center"
-            />
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="0"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
             android:layout_margin="1dp"
             android:background="#FFFFFF"
             android:gravity="center"
-            android:layout_column="2" />
+            android:text="0"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
     </TableRow>
 
 
-
     <TableRow
-        android:background="#ffffff"
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_margin="1dp"
         android:layout_weight="1"
-        >
+        android:background="#ffffff">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_margin="1dp"
+            android:background="#FFFFFF"
+            android:gravity="center"
             android:text="3"
-            android:layout_margin="1dp"
-            android:layout_column="0"
-            android:background="#FFFFFF"
-            android:gravity="center"
-            />
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Team C"
-            android:layout_margin="1dp"
+            android:layout_height="wrap_content"
             android:layout_column="1"
-            android:background="#FFFFFF"
-            android:gravity="center"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="0"
             android:layout_margin="1dp"
             android:background="#FFFFFF"
             android:gravity="center"
-            android:layout_column="2" />
+            android:text="Team C"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:layout_margin="1dp"
+            android:background="#FFFFFF"
+            android:gravity="center"
+            android:text="0"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
     </TableRow>
 
     <TableRow
-        android:background="#ffffff"
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_margin="1dp"
         android:layout_weight="1"
-        >
+        android:background="#ffffff">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="4"
-            android:layout_margin="1dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_column="0"
+            android:layout_margin="1dp"
             android:background="#FFFFFF"
             android:gravity="center"
-            />
+            android:text="4"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Team D"
-            android:layout_margin="1dp"
+            android:layout_height="wrap_content"
             android:layout_column="1"
-            android:background="#FFFFFF"
-            android:gravity="center"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="0"
             android:layout_margin="1dp"
             android:background="#FFFFFF"
             android:gravity="center"
-            android:layout_column="2" />
+            android:text="Team D"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:layout_margin="1dp"
+            android:background="#FFFFFF"
+            android:gravity="center"
+            android:text="0"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
     </TableRow>
 
 
