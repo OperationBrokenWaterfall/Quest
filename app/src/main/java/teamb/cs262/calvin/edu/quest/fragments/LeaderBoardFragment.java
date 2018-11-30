@@ -24,7 +24,7 @@ import teamb.cs262.calvin.edu.quest.R;
 public class LeaderBoardFragment extends Fragment {
 
     private TextView score;
-    static int score_value = 0;
+    static int score_value;
 
 
 
@@ -99,5 +99,6 @@ public class LeaderBoardFragment extends Fragment {
             }
             bundle.remove("QR"); // this fixes score increment and vibrate on restart
         }
+        score.setText(String.valueOf(score_value));
     }
 }
