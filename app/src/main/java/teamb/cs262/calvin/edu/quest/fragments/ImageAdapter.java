@@ -24,13 +24,18 @@ import teamb.cs262.calvin.edu.quest.R;
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
 
+
+    private ArrayList<String> mImageUrls;
+
+
     // Constructor
-    public ImageAdapter(Context c) {
+    public ImageAdapter(Context c, ArrayList images) {
         mContext = c;
+        mImageUrls = images;
     }
 
     public int getCount() {
-        return mThumbIds.length;
+        return mImageUrls.size();
     }
 
     public Object getItem(int position) {
@@ -47,30 +52,20 @@ public class ImageAdapter extends BaseAdapter {
 
         if (convertView == null) {
             imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
+            imageView.setLayoutParams(new GridView.LayoutParams(520, 520));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(8, 8, 8, 8);
+            imageView.setPadding(4, 4, 4, 4);
         }
         else
         {
             imageView = (ImageView) convertView;
         }
-        imageView.setImageResource(mThumbIds[position]);
+
+        Glide.with(mContext)
+                .asBitmap()
+                .load(mImageUrls.get(position))
+                .into(imageView);
+
         return imageView;
     }
-
-    // Keep all Images in array
-    public Integer[] mThumbIds = {
-            R.drawable.sample_2, R.drawable.sample_3,
-            R.drawable.sample_4, R.drawable.sample_5,
-            R.drawable.sample_6, R.drawable.sample_7,
-            R.drawable.sample_0, R.drawable.sample_1,
-            R.drawable.sample_2, R.drawable.sample_3,
-            R.drawable.sample_4, R.drawable.sample_5,
-            R.drawable.sample_6, R.drawable.sample_7,
-            R.drawable.sample_0, R.drawable.sample_1,
-            R.drawable.sample_2, R.drawable.sample_3,
-            R.drawable.sample_4, R.drawable.sample_5,
-            R.drawable.sample_6, R.drawable.sample_7
-    };
 }

@@ -2,6 +2,7 @@ package teamb.cs262.calvin.edu.quest.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -20,6 +22,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import teamb.cs262.calvin.edu.quest.R;
+import teamb.cs262.calvin.edu.quest.SingleViewActivity;
 
 /**
  * TaskListFragment is a singleton
@@ -65,7 +68,7 @@ public class TaskListFragment extends Fragment {
 
         super.onCreate(savedInstanceState);
 
-//        initImageBitmaps();
+        initImageBitmaps();
     }
 
     /**
@@ -83,7 +86,26 @@ public class TaskListFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_task_list, container, false);
 
         GridView gridview = (GridView) rootView.findViewById(R.id.gridview);
-        gridview.setAdapter(new ImageAdapter(this));
+        gridview.setAdapter(new ImageAdapter(getContext(), mImageUrls));
+
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent,
+                                    View v, int position, long id){
+                //Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+
+                // Send intent to SingleViewActivity
+                Intent i = new Intent(getContext(), SingleViewActivity.class);
+                // Pass image index
+                Bundle bundle = new Bundle();
+
+                bundle.putInt("id", position);
+                bundle.putStringArrayList("urls", mImageUrls);
+
+                i.putExtras(bundle);
+
+                startActivity(i);
+            }
+        });
 
         return rootView;
     }

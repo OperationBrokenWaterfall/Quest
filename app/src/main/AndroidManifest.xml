@@ -32,7 +32,7 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".ExpandedImages"
+            android:name=".SingleViewActivity"
             android:screenOrientation="portrait"></activity>
     </application>
 
