@@ -7,8 +7,6 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="300px"
-            android:layout_height="300px"
             android:layout_centerInParent="true"
             android:gravity="center_vertical"
             app:srcCompat="@mipmap/ic_launcher" />
