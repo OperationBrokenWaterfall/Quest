@@ -7,6 +7,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -36,6 +37,8 @@ public class TeamsActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle("Quest");
         getSupportActionBar().setSubtitle("Team: " + team);
+
+
 
         //open into the TaskListFragment by default
         if (savedInstanceState == null) {
@@ -92,5 +95,25 @@ public class TeamsActivity extends AppCompatActivity {
      */
     @Override
     public void onBackPressed() { }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.help, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.user_guide:
+                Intent intent = new Intent(this, HelpActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                // Do nothing
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }
