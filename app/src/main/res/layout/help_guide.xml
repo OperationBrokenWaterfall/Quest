@@ -29,7 +29,7 @@
         android:layout_marginTop="25dp"
         android:textColor="@color/black"
         android:textSize="@dimen/font_size"
-        android:text="Leaderboard:"
+        android:text="@string/leaderboard_text"
         android:textStyle="bold"
         android:layout_below="@+id/help_textView_1"
         tools:layout_editor_absoluteX="58dp"
@@ -44,7 +44,7 @@
         android:layout_marginTop="0dp"
         android:textColor="@color/black"
         android:textSize="@dimen/font_size"
-        android:text="Use the leaderboard tab to track your teams points as you find new locations.  You can also see how many points you have relative to other teams."
+        android:text="@string/leaderboard_help_text"
         android:layout_below="@+id/help_textView_2"
         tools:layout_editor_absoluteX="58dp"
         tools:layout_editor_absoluteY="52dp" />
@@ -58,7 +58,7 @@
         android:layout_marginTop="25dp"
         android:textColor="@color/black"
         android:textSize="@dimen/font_size"
-        android:text="Task List:"
+        android:text="@string/task_list_text"
         android:textStyle="bold"
         android:layout_below="@+id/help_textView_2.5"
         tools:layout_editor_absoluteX="58dp"
@@ -73,7 +73,7 @@
         android:layout_marginTop="0dp"
         android:textColor="@color/black"
         android:textSize="@dimen/font_size"
-        android:text="Use the Task List tab to view scavenger hunt locations that your team needs to find.  Images can be clicked to be expanded and once expanded can be swiped between.  If you have already found an image it will be indicated on the page."
+        android:text="@string/task_list_help_text"
         android:layout_below="@+id/help_textView_3"
         tools:layout_editor_absoluteX="58dp"
         tools:layout_editor_absoluteY="52dp" />
@@ -88,7 +88,7 @@
         android:textColor="@color/black"
         android:layout_below="@+id/help_textView_3.5"
         android:textSize="@dimen/font_size"
-        android:text="QR Scanner:"
+        android:text="@string/qr_scanner_text"
         android:textStyle="bold"
         tools:layout_editor_absoluteX="58dp"
         tools:layout_editor_absoluteY="52dp" />
@@ -102,7 +102,7 @@
         android:layout_marginTop="0dp"
         android:textColor="@color/black"
         android:textSize="@dimen/font_size"
-        android:text="Once at a location there should be a QR code that you can scan to verify your team has found it.  Use the QR Scanner to launch your phone's camera and scan the code."
+        android:text="@string/qr_reader_help_text"
         android:layout_below="@+id/help_textView_4"
         tools:layout_editor_absoluteX="58dp"
         tools:layout_editor_absoluteY="52dp" />
