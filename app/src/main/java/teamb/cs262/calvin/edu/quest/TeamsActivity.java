@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -20,6 +21,9 @@ import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import teamb.cs262.calvin.edu.quest.fragments.LeaderBoardFragment;
 import teamb.cs262.calvin.edu.quest.fragments.QRCodeFragment;
@@ -132,32 +136,38 @@ public class TeamsActivity extends AppCompatActivity implements LoaderManager.Lo
 
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String s) {
+        List<Team> teams = new ArrayList<Team>();
         try {
             JSONObject jsonObject = new JSONObject(s);
+            Log.d("Teams", jsonObject.toString());
             JSONArray itemsArray = jsonObject.getJSONArray("items");
+            Log.d("Teams", itemsArray.toString());
             for(int i = 0; i<itemsArray.length(); i++){
                 JSONObject book = itemsArray.getJSONObject(i);
-                String title=null;
-                String authors=null;
-                JSONObject volumeInfo = book.getJSONObject("volumeInfo");
+                String team=null;
+                String score=null;
+                //JSONObject volumeInfo = book.getJSONObject("volumeInfo");
 
 
                 try {
-                    title = volumeInfo.getString("title");
-                    authors = volumeInfo.getString("authors");
+                    team = book.getString("team");
+                    score = book.getString("score");
                 } catch (Exception e){
                     e.printStackTrace();
                 }
 
 
-                if (title != null && authors != null){
-                    System.out.println("Title: " + title + ", Authors: " + authors);
-                    return;
+                if (team != null && score != null){
+                    System.out.println("Team: " + team + ", Score: " + score);
+                    teams.add(new Team(team, Integer.valueOf(score)));
                 }
             }
-            System.out.println("None Found");
-
-
+            if(!teams.isEmpty()) {
+                LeaderBoardFragment.getInstance().setTeams(teams);
+            }
+            else {
+                Log.d("Web Req Finish", "No teams found");
+            }
         } catch (Exception e){
             System.out.println("None Found");
             e.printStackTrace();

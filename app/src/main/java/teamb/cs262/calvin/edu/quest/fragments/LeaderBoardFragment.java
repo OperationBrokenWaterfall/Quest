@@ -2,19 +2,27 @@ package teamb.cs262.calvin.edu.quest.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.util.LayoutDirection;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import teamb.cs262.calvin.edu.quest.R;
+import teamb.cs262.calvin.edu.quest.Team;
 
 /**
  * LeaderBoardFragment is a singleton
@@ -26,13 +34,18 @@ public class LeaderBoardFragment extends Fragment {
     private TextView score;
     static int score_value;
 
+    private TableLayout layout;
 
 
     private static LeaderBoardFragment instance;  // singleton instance
 
+    private List<Team> teams;
+
     @SuppressLint("ValidFragment")
     private LeaderBoardFragment() {
         super();
+        teams = new ArrayList<Team>();
+
     }
 
 
@@ -45,6 +58,58 @@ public class LeaderBoardFragment extends Fragment {
             instance = newInstance();
         }
         return instance;
+    }
+
+    public void setTeams(final List<Team> teams) {
+        Log.d("setTeams()", teams.toArray().toString());
+        if(layout == null) {
+//            AsyncTask.execute(new Runnable() {
+//                @Override
+//                public void run() {
+//                    setTeams(teams);
+//                }
+//            });
+        } else {
+            for (int i = 0; i < teams.size(); i++) {
+                Team team = teams.get(i);
+                layout.addView(createTableRow(i + 1, team.name, team.score));
+            }
+        }
+
+    }
+
+    private TableRow createTableRow(int place, String team, int score) {
+        final TableRow row = new TableRow(getContext());
+        row.setLayoutParams(new TableRow.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
+        TextView placeText = createTextView(String.valueOf(place));
+        TextView teamText = createTextView(team);
+        TextView scoreText = createTextView(String.valueOf(score));
+        row.addView(placeText);
+        row.addView(teamText);
+        row.addView(scoreText);
+        return row;
+
+    }
+    /*
+    XML of styling
+
+    android:id="@+id/team_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/score_label"
+        android:textSize="@dimen/font_size"
+        android:textColor="@color/black"
+        android:text="0" />
+     */
+    @SuppressLint({"ResourceAsColor", "ResourceType"})
+    private TextView createTextView(String text) {
+        TextView view = new TextView(getContext());
+        view.setText(text);
+        view.setTextAppearance(getContext(), android.R.attr.textAppearanceLarge); //Doesn't work for whatever reason
+
+        return view;
     }
 
     /**
@@ -68,6 +133,7 @@ public class LeaderBoardFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View rootview = inflater.inflate(R.layout.fragment_leader_board, container, false);
+        layout = (TableLayout) rootview.findViewById(R.id.leaderboardTableLayout);
         score = rootview.findViewById(R.id.team_score);
 
         return rootview;
