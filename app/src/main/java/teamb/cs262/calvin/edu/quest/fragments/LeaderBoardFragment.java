@@ -62,20 +62,10 @@ public class LeaderBoardFragment extends Fragment {
 
     public void setTeams(final List<Team> teams) {
         Log.d("setTeams()", teams.toArray().toString());
-        if(layout == null) {
-//            AsyncTask.execute(new Runnable() {
-//                @Override
-//                public void run() {
-//                    setTeams(teams);
-//                }
-//            });
-        } else {
-            for (int i = 0; i < teams.size(); i++) {
-                Team team = teams.get(i);
-                layout.addView(createTableRow(i + 1, team.name, team.score));
-            }
+        for (int i = 0; i < teams.size(); i++) {
+            Team team = teams.get(i);
+            layout.addView(createTableRow(i + 1, team.name, team.score));
         }
-
     }
 
     private TableRow createTableRow(int place, String team, int score) {
@@ -108,7 +98,6 @@ public class LeaderBoardFragment extends Fragment {
         TextView view = new TextView(getContext());
         view.setText(text);
         view.setTextAppearance(getContext(), android.R.attr.textAppearanceLarge); //Doesn't work for whatever reason
-
         return view;
     }
 

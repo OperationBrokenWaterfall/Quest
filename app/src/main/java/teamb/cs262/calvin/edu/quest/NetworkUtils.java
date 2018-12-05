@@ -1,6 +1,9 @@
 package teamb.cs262.calvin.edu.quest;
 
+import android.annotation.TargetApi;
 import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -14,20 +17,18 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-
-// Database Access Object
+import java.util.Base64;
 
 
 public class NetworkUtils {
 
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
 
-    private static final String BOOK_BASE_URL =  "https://www.googleapis.com/books/v1/volumes?"; // Base URI for the Books API
-    private static final String QUERY_PARAM = "q"; // Parameter for the search string
-    private static final String MAX_RESULTS = "maxResults"; // Parameter that limits search results
-    private static final String PRINT_TYPE = "printType";   // Parameter to filter by print type
+    private static final String BOOK_BASE_URL =  "https://cs262-teamb-fall2018.appspot.com/questapp/v1/game"; // Base URI for the Books API
 
 
+    @TargetApi(Build.VERSION_CODES.O)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     static String getBookInfo(String queryString){
 
             String bookJSONString = getJSONStringFromURI(BOOK_BASE_URL, queryString);
@@ -37,21 +38,24 @@ public class NetworkUtils {
 
     }
 
-    static String getJSONStringFromURI(String uri, String queryString) {
+    @TargetApi(Build.VERSION_CODES.O)
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private static String getJSONStringFromURI(String uri, String queryString) {
         HttpURLConnection urlConnection = null;
 
         String bookJSONString = null;
         try {
-            Uri builtURI = Uri.parse(BOOK_BASE_URL).buildUpon()
-                    .appendQueryParameter(QUERY_PARAM, queryString)
-                    .appendQueryParameter(MAX_RESULTS, "10")
-                    .appendQueryParameter(PRINT_TYPE, "books")
+            Uri builtURI = Uri.parse(uri).buildUpon()
                     .build();
             URL requestURL = new URL(builtURI.toString());
             urlConnection = (HttpURLConnection) requestURL.openConnection();
             urlConnection.setRequestMethod("GET");
+            String userpass = "postgres:Quest";
+            String basicAuth = "Basic " + new String(Base64.getEncoder().encode(userpass.getBytes()));
+            urlConnection.setRequestProperty("Authorization", basicAuth);
             urlConnection.connect();
             bookJSONString = getResponseFromConnection(urlConnection);
+            Log.d("Response",bookJSONString);
         } catch(Exception e) {
             e.printStackTrace();
             return null;
@@ -81,7 +85,7 @@ public class NetworkUtils {
         return bookJSONString;
     }
 
-    static String getResponseFromConnection(URLConnection urlConnection) {
+    private static String getResponseFromConnection(URLConnection urlConnection) {
         String result = null;
         BufferedReader reader = null;
         try {
