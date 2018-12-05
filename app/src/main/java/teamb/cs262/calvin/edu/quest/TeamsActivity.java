@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,6 +52,8 @@ public class TeamsActivity extends AppCompatActivity implements LoaderManager.Lo
 
         getSupportActionBar().setTitle("Quest");
         getSupportActionBar().setSubtitle("Team: " + team);
+
+
 
         //open into the TaskListFragment by default
         if (savedInstanceState == null) {
@@ -178,4 +181,24 @@ public class TeamsActivity extends AppCompatActivity implements LoaderManager.Lo
     public void onLoaderReset(@NonNull Loader<String> loader) {
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.help, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.user_guide:
+                Intent intent = new Intent(this, HelpActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                // Do nothing
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

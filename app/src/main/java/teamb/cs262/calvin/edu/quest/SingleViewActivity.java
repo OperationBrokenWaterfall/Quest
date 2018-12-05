@@ -1,5 +1,6 @@
 package teamb.cs262.calvin.edu.quest;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -14,45 +16,41 @@ import com.github.chrisbanes.photoview.PhotoView;
 
 import java.util.ArrayList;
 
+import teamb.cs262.calvin.edu.quest.fragments.ImageAdapter;
+
 /**
  * This class expands the thumbnail images that are in the recyclerView in the TaskListFragment.
  * The images are opened in a new activity and displayed in a imageView that takes up the whole
  * phone screen.
  */
-public class ExpandedImages extends AppCompatActivity implements GestureDetector.OnGestureListener, View.OnTouchListener {
+public class SingleViewActivity extends AppCompatActivity implements GestureDetector.OnGestureListener, View.OnTouchListener {
 
-
-    private PhotoView image;
-    private Bundle bundle;
-    private int imgNum;
-    private ArrayList<String> mImages = new ArrayList(); // stores the image urls
+    private ArrayList<String> mImageUrls;
     GestureDetector gestureDetector;
+    private int position;
+    private ImageView imageView;
 
-
-    /**
-     * When created show the originally desired expanded image from the recyclerView in the
-     * TaskListFragment.  Set up a gesture detector to look for left/right swipes.
-     *
-     * @param savedInstanceState
-     */
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expanded_images);
 
-        image = findViewById(R.id.myImage);
+        // Get intent and bundle data
+        Intent i = getIntent();
+        Bundle bundle = i.getExtras();
 
-        bundle = getIntent().getExtras();
-        imgNum = bundle.getInt("image_url");
-        mImages = bundle.getStringArrayList("imageArrayList");
+        // Selected image id
+        position = bundle.getInt("id");
+        mImageUrls = bundle.getStringArrayList("urls");
+        ImageAdapter imageAdapter = new ImageAdapter(getApplicationContext(), mImageUrls);
 
-        gestureDetector = new GestureDetector(ExpandedImages.this, ExpandedImages.this);
-        image.setOnTouchListener(this);
+        imageView = (ImageView) findViewById(R.id.SingleView);
 
-        Glide.with(this)
+        gestureDetector = new GestureDetector(SingleViewActivity.this, SingleViewActivity.this);
+
+        Glide.with(getApplicationContext())
                 .asBitmap()
-                .load(mImages.get(imgNum))
-                .into(image);
+                .load(mImageUrls.get(position))
+                .into(imageView);
     }
 
     /**
@@ -67,27 +65,22 @@ public class ExpandedImages extends AppCompatActivity implements GestureDetector
         return gestureDetector.onTouchEvent(motionEvent);
     }
 
-    @Override
     public boolean onDown(MotionEvent e) {
         return false;
     }
 
-    @Override
     public void onShowPress(MotionEvent e) {
 
     }
 
-    @Override
     public boolean onSingleTapUp(MotionEvent e) {
         return false;
     }
 
-    @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
         return false;
     }
 
-    @Override
     public void onLongPress(MotionEvent e) {
     }
 
@@ -100,49 +93,48 @@ public class ExpandedImages extends AppCompatActivity implements GestureDetector
      * @param Y
      * @return
      */
-    @Override
     public boolean onFling(MotionEvent motionEvent1, MotionEvent motionEvent2, float X, float Y) {
         //Swiped from right to left
         if(motionEvent1.getX() - motionEvent2.getX() > 30){
-            if (imgNum != mImages.size() - 1) {
+            if (position != mImageUrls.size() - 1) {
                 Glide.with(this)
                         .asBitmap()
-                        .load(mImages.get(++imgNum))
-                        .into(image);
+                        .load(mImageUrls.get(++position))
+                        .into(imageView);
             } else {
-                imgNum = 0;
+                position = 0;
                 Glide.with(this)
                         .asBitmap()
-                        .load(mImages.get(imgNum))
-                        .into(image);
+                        .load(mImageUrls.get(position))
+                        .into(imageView);
             }
             return true;
         }
 
         //Swiped left to right
         if(motionEvent2.getX() - motionEvent1.getX() > 30) {
-            if (imgNum != 0) {
+            if (position != 0) {
                 Glide.with(this)
                         .asBitmap()
-                        .load(mImages.get(--imgNum))
-                        .into(image);
+                        .load(mImageUrls.get(--position))
+                        .into(imageView);
             } else {
-                imgNum = mImages.size() - 1;
+                position = mImageUrls.size() - 1;
                 Glide.with(this)
                         .asBitmap()
-                        .load(mImages.get(imgNum))
-                        .into(image);
+                        .load(mImageUrls.get(position))
+                        .into(imageView);
             }
             return true;
         }
         else { return true ; }
     }
 
-    @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if(v==image)
+        if(v==imageView)
             if(gestureDetector.onTouchEvent(event))
                 return true;
         return false;
     }
+
 }
