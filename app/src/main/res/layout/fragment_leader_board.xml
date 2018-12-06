@@ -37,7 +37,8 @@
 
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:stretchColumns="0,1,2"
+    android:stretchColumns="0,1,2, 3, 4, 5"
+    android:id="@+id/leaderboardTableLayout"
     android:gravity="center">
 
 

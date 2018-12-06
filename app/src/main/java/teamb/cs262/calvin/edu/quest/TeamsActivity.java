@@ -1,15 +1,27 @@
 package teamb.cs262.calvin.edu.quest;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import teamb.cs262.calvin.edu.quest.fragments.LeaderBoardFragment;
 import teamb.cs262.calvin.edu.quest.fragments.QRCodeFragment;
@@ -19,7 +31,7 @@ import teamb.cs262.calvin.edu.quest.fragments.TaskListFragment;
  * This activity is the hub of our UI, containing the three main fragments
  * which drive the scavenger hunt.
  */
-public class TeamsActivity extends AppCompatActivity {
+public class TeamsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>{
 
     private Fragment fragment;
 
@@ -44,6 +56,9 @@ public class TeamsActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             navigation.setSelectedItemId(R.id.task_list_fragment); // change to whichever id should be default
         }
+        if(getSupportLoaderManager().getLoader(0)!=null){
+            getSupportLoaderManager().initLoader(0,null,this);
+        }
     }
 
     /**
@@ -63,6 +78,7 @@ public class TeamsActivity extends AppCompatActivity {
                     break;
                 case R.id.leaderboard_fragment:
                     fragment = LeaderBoardFragment.getInstance();
+                    updateLeaderboard();
                     break;
                 case R.id.task_list_fragment:
                     fragment = TaskListFragment.getInstance();
@@ -96,6 +112,68 @@ public class TeamsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() { }
 
+    public void updateLeaderboard() {
+
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnected()) {
+            Bundle queryBundle = new Bundle();
+            getSupportLoaderManager().restartLoader(0, queryBundle,this);
+            System.out.println("Loading");
+        }
+    }
+
+    @NonNull
+    @Override
+    public Loader<String> onCreateLoader(int i, @Nullable Bundle bundle) {
+        return new LeaderboardLoader(this, bundle.getString("queryString"));
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<String> loader, String s) {
+        List<Team> teams = new ArrayList<Team>();
+        try {
+            JSONObject jsonObject = new JSONObject(s);
+            Log.d("Teams", jsonObject.toString());
+            JSONArray itemsArray = jsonObject.getJSONArray("items");
+            Log.d("Teams", itemsArray.toString());
+            for(int i = 0; i<itemsArray.length(); i++){
+                JSONObject item = itemsArray.getJSONObject(i);
+                String team=null;
+                String score=null;
+
+
+                try {
+                    team = item.getString("team");
+                    score = item.getString("score");
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+
+
+                if (team != null && score != null){
+                    System.out.println("Team: " + team + ", Score: " + score);
+                    teams.add(new Team(team, Integer.valueOf(score)));
+                }
+            }
+            if(!teams.isEmpty()) {
+                LeaderBoardFragment.getInstance().setTeams(teams);
+            }
+            else {
+                Log.d("Web Req Finish", "No teams found");
+            }
+        } catch (Exception e){
+            System.out.println("None Found");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<String> loader) {
+
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
