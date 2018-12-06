@@ -16,9 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -81,7 +78,7 @@ public class TeamsActivity extends AppCompatActivity implements LoaderManager.Lo
                     break;
                 case R.id.leaderboard_fragment:
                     fragment = LeaderBoardFragment.getInstance();
-                    searchBooks();
+                    updateLeaderboard();
                     break;
                 case R.id.task_list_fragment:
                     fragment = TaskListFragment.getInstance();
@@ -115,17 +112,14 @@ public class TeamsActivity extends AppCompatActivity implements LoaderManager.Lo
     @Override
     public void onBackPressed() { }
 
-    public void searchBooks() {
-
-        String queryString = "Ready Player";
+    public void updateLeaderboard() {
 
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
-        if (networkInfo != null && networkInfo.isConnected() && queryString.length()!=0) {
+        if (networkInfo != null && networkInfo.isConnected()) {
             Bundle queryBundle = new Bundle();
-            queryBundle.putString("queryString", queryString);
             getSupportLoaderManager().restartLoader(0, queryBundle,this);
             System.out.println("Loading");
         }
@@ -134,7 +128,7 @@ public class TeamsActivity extends AppCompatActivity implements LoaderManager.Lo
     @NonNull
     @Override
     public Loader<String> onCreateLoader(int i, @Nullable Bundle bundle) {
-        return new BookLoader(this, bundle.getString("queryString"));
+        return new LeaderboardLoader(this, bundle.getString("queryString"));
     }
 
     @Override
@@ -146,15 +140,14 @@ public class TeamsActivity extends AppCompatActivity implements LoaderManager.Lo
             JSONArray itemsArray = jsonObject.getJSONArray("items");
             Log.d("Teams", itemsArray.toString());
             for(int i = 0; i<itemsArray.length(); i++){
-                JSONObject book = itemsArray.getJSONObject(i);
+                JSONObject item = itemsArray.getJSONObject(i);
                 String team=null;
                 String score=null;
-                //JSONObject volumeInfo = book.getJSONObject("volumeInfo");
 
 
                 try {
-                    team = book.getString("team");
-                    score = book.getString("score");
+                    team = item.getString("team");
+                    score = item.getString("score");
                 } catch (Exception e){
                     e.printStackTrace();
                 }
