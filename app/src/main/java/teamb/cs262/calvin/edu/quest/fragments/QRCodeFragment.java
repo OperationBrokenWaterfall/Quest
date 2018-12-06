@@ -1,21 +1,30 @@
 package teamb.cs262.calvin.edu.quest.fragments;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
 import android.graphics.PointF;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 
-import teamb.cs262.calvin.edu.quest.R;
+import java.security.Permission;
+import java.security.Permissions;
 
+import teamb.cs262.calvin.edu.quest.R;
 
 
 /**
@@ -29,6 +38,8 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
     private QRCodeReaderView qrCodeReaderView;
 
     private BottomNavigationView nav;
+
+    private final int CAMERA_PERMISSION_REQUEST = 7;
 
     private static QRCodeFragment instance; // singleton instance
 
@@ -62,7 +73,36 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         nav = (BottomNavigationView) getActivity().findViewById(R.id.navigation);
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            // No explanation needed; request the permission
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST);
+            // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+            // app-defined int constant. The callback method gets the
+            // result of the request.
+            Log.d("Permissions", "Not Granted Yet");
+        } else {
+            Log.d("Permissions", "Already Granted");
+            // Permission has already been granted
+        }
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        Log.d("Permissions", "Permission Result Called");
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            // permission was granted, yay! Do the
+            // contacts-related task you need to do.
+            //Refresh Fragment
+            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+        } else {
+            // permission denied, boo! Disable the
+            // functionality that depends on this permission.
+            Toast.makeText(getContext(), "You denied access to the Camera. Please reload the camera and try again.", Toast.LENGTH_LONG).show();
+
+        }
     }
 
     @Override
@@ -71,6 +111,16 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
         View rootView = inflater.inflate(R.layout.fragment_qrcode, container, false);
         // Inflate the layout for this fragment
         qrCodeReaderView = (QRCodeReaderView) rootView.findViewById(R.id.qrdecoderview);
+        try {
+            launchCamera();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return rootView;
+    }
+
+    private void launchCamera() {
         qrCodeReaderView.setOnQRCodeReadListener(this);
 
         // Use this function to enable/disable decoding
@@ -88,10 +138,10 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
         // Use this function to set back camera preview
         qrCodeReaderView.setBackCamera();
 
-
         qrCodeReaderView.startCamera();
-        return rootView;
+
     }
+
 
 
     /**
