@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +27,8 @@ import java.security.Permission;
 import java.security.Permissions;
 
 import teamb.cs262.calvin.edu.quest.R;
+
+import static teamb.cs262.calvin.edu.quest.fragments.TaskListFragment.locationCodes;
 
 
 /**
@@ -42,6 +46,8 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
     private final int CAMERA_PERMISSION_REQUEST = 7;
 
     private static QRCodeFragment instance; // singleton instance
+
+    private Integer gridSize; // number of images in gridView
 
     @SuppressLint("ValidFragment")
     private QRCodeFragment() {
@@ -152,10 +158,33 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
      */
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
+
         Fragment fragment = LeaderBoardFragment.getInstance();
         Bundle bundle = new Bundle();
         bundle.putString("QR", text);
         fragment.setArguments(bundle);
+
+        if (locationCodes.containsKey(text)) {
+            LayoutInflater inflater = getLayoutInflater();
+            View myView = inflater.inflate(R.layout.fragment_task_list, null);
+            GridView grid = (GridView) myView.findViewById(R.id.gridview);
+
+            gridSize = grid.getChildCount();
+            Integer position = locationCodes.get(text);
+            for(int i = 0; i < position; i++) {
+                ViewGroup gridChild = (ViewGroup) grid.getChildAt(i);
+                int childSize = gridChild.getChildCount();
+                for(int k = 0; k < childSize; k++) {
+                    if( gridChild.getChildAt(k) instanceof ImageView ) {
+                        gridChild.getChildAt(k).setAlpha(65);
+                    }
+                }
+            }
+            locationCodes.remove(text);
+        } else {
+            Toast.makeText(getContext(), "location already found", Toast.LENGTH_SHORT).show();
+        }
+
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment);
@@ -175,5 +204,6 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
         super.onPause();
         qrCodeReaderView.stopCamera();
     }
+
 }
 

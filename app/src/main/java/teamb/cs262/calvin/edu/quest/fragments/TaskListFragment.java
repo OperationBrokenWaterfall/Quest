@@ -16,10 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import teamb.cs262.calvin.edu.quest.R;
 import teamb.cs262.calvin.edu.quest.SingleViewActivity;
@@ -35,6 +38,23 @@ public class TaskListFragment extends Fragment {
     private static final String TAG = "TaskListFragment";
 
     private ArrayList<String> mImageUrls = new ArrayList<>(); // store the image urls
+
+    static Map<String, Integer> locationCodes = new HashMap<String, Integer>() {{
+        put("pencils", 0);
+        put("seniors", 1);
+        put("coke machine", 2);
+        put("chair 68", 3);
+        put("random dude", 4);
+        put("aquarium", 5);
+        put("boxes within boxes", 6);
+        put("clock", 7);
+        put("film set", 8);
+        put("neon dove", 9);
+        put("life jacket", 10);
+        put("maroon 20", 11);
+        put("maroon printer", 12);
+    }};
+
 
     private static TaskListFragment instance; // singleton instance
 
@@ -144,52 +164,69 @@ public class TaskListFragment extends Fragment {
     private void initImageBitmaps() {
         Log.d(TAG, "initImageBitmaps");
 
-        if (!mImageUrls.contains("https://i.postimg.cc/rw7J4zfv/image.jpg")) {
-            mImageUrls.add("https://i.postimg.cc/rw7J4zfv/image.jpg");
-        }
-
-        if (!mImageUrls.contains("https://i.postimg.cc/JhJQ5mgt/image-1.jpg")) {
-            mImageUrls.add("https://i.postimg.cc/JhJQ5mgt/image-1.jpg");
-        }
-
-        if (!mImageUrls.contains("https://i.postimg.cc/bJh96Wcg/image-2.jpg")) {
-            mImageUrls.add("https://i.postimg.cc/bJh96Wcg/image-2.jpg");
-        }
-
-        if (!mImageUrls.contains("https://i.postimg.cc/sgMm154Y/image-3.jpg")) {
-            mImageUrls.add("https://i.postimg.cc/sgMm154Y/image-3.jpg");
-        }
-
+        // pencils
         if (!mImageUrls.contains("https://i.postimg.cc/yd3CPJKc/IMG-20181101-100434246.jpg")) {
             mImageUrls.add("https://i.postimg.cc/yd3CPJKc/IMG-20181101-100434246.jpg");
         }
 
+        // seniors
         if (!mImageUrls.contains("https://i.postimg.cc/RVBx7VDJ/IMG-20181101-180824927.jpg")) {
             mImageUrls.add("https://i.postimg.cc/RVBx7VDJ/IMG-20181101-180824927.jpg");
         }
 
+        // coke machine
         if (!mImageUrls.contains("https://i.postimg.cc/8ch82qjC/IMG-20181101-180954395.jpg")) {
             mImageUrls.add("https://i.postimg.cc/8ch82qjC/IMG-20181101-180954395.jpg");
         }
 
+        // chair 68
         if (!mImageUrls.contains("https://i.postimg.cc/MHk2rWZ4/IMG-20181101-181328330.jpg")) {
             mImageUrls.add("https://i.postimg.cc/MHk2rWZ4/IMG-20181101-181328330.jpg");
         }
 
-        if (!mImageUrls.contains("https://i.postimg.cc/MHk2rWZ4/IMG-20181101-181328330.jpg")) {
-            mImageUrls.add("https://i.postimg.cc/MHk2rWZ4/IMG-20181101-181328330.jpg");
-        }
-
+        // random dude
         if (!mImageUrls.contains("https://i.postimg.cc/DyPkBk9j/IMG-20181101-181507293.jpg")) {
             mImageUrls.add("https://i.postimg.cc/DyPkBk9j/IMG-20181101-181507293.jpg");
         }
 
+        // aquarium
         if (!mImageUrls.contains("https://i.postimg.cc/1R6ZVNJZ/IMG-20181101-181621138.jpg")) {
             mImageUrls.add("https://i.postimg.cc/1R6ZVNJZ/IMG-20181101-181621138.jpg");
         }
 
+        // boxes within boxes
         if (!mImageUrls.contains("https://i.postimg.cc/mr5GCYvT/IMG-20181101-182303299.jpg")) {
             mImageUrls.add("https://i.postimg.cc/mr5GCYvT/IMG-20181101-182303299.jpg");
+        }
+
+        // clock
+        if (!mImageUrls.contains("https://i.postimg.cc/rw7J4zfv/image.jpg")) {
+            mImageUrls.add("https://i.postimg.cc/rw7J4zfv/image.jpg");
+        }
+
+        //film set
+        if (!mImageUrls.contains("https://i.postimg.cc/JhJQ5mgt/image-1.jpg")) {
+            mImageUrls.add("https://i.postimg.cc/JhJQ5mgt/image-1.jpg");
+        }
+
+        // neon dove
+        if (!mImageUrls.contains("https://i.postimg.cc/bJh96Wcg/image-2.jpg")) {
+            mImageUrls.add("https://i.postimg.cc/bJh96Wcg/image-2.jpg");
+        }
+
+        // life jacket
+        if (!mImageUrls.contains("https://i.postimg.cc/sgMm154Y/image-3.jpg")) {
+            mImageUrls.add("https://i.postimg.cc/sgMm154Y/image-3.jpg");
+        }
+
+        // maroon 20
+        if (!mImageUrls.contains("https://i.postimg.cc/J7PVtyMc/IMG-20181120-124549582.jpg")) {
+            mImageUrls.add("https://i.postimg.cc/J7PVtyMc/IMG-20181120-124549582.jpg");
+        }
+
+        // maroon printer
+        if (!mImageUrls.contains("https://i.postimg.cc/HLQFmn6M/IMG-20181120-124600818.jpg")) {
+            mImageUrls.add("https://i.postimg.cc/HLQFmn6M/IMG-20181120-124600818.jpg");
         }
     }
 
