@@ -27,3 +27,5 @@ public class LeaderboardLoader extends AsyncTaskLoader<String> {
         return NetworkUtils.getDatabaseJSON(mQueryString);
     }
 }
+
+

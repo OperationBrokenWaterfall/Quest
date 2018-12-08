@@ -34,6 +34,7 @@ import teamb.cs262.calvin.edu.quest.fragments.TaskListFragment;
 public class TeamsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>{
 
     private Fragment fragment;
+    public static String TEAM_NAME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class TeamsActivity extends AppCompatActivity implements LoaderManager.Lo
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         String team = bundle.getString("team_name");
-
+        TEAM_NAME = team;
         getSupportActionBar().setTitle("Quest");
         getSupportActionBar().setSubtitle("Team: " + team);
 

@@ -2,6 +2,7 @@ package teamb.cs262.calvin.edu.quest;
 
 import android.annotation.TargetApi;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.JsonReader;
@@ -12,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -28,8 +30,62 @@ public class NetworkUtils {
 
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
 
-    private static final String BASE_URL =  "https://cs262-teamb-fall2018.appspot.com/questapp/v1/game"; // Base URI for the Google Cloud API
+    public static final String BASE_URL =  "https://cs262-teamb-fall2018.appspot.com/questapp/v1/game"; // Base URI for the Google Cloud API
 
+
+    private static class PostPlayerTask extends AsyncTask<JSONObject, Void, JSONArray> {
+
+        @Override
+        protected JSONArray doInBackground(JSONObject... params) {
+            HttpURLConnection connection = null;
+            StringBuilder jsonText = new StringBuilder();
+            JSONArray result = null;
+            try {
+                // Open the connection as usual.
+                JSONObject jsonData = params[0];
+                connection = (HttpURLConnection) new URL(BASE_URL).openConnection();
+                // Configure the connection for a POST, including outputing streamed JSON data.
+                connection.setRequestMethod("POST");
+                connection.setDoOutput(true);
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setFixedLengthStreamingMode(jsonData.toString().length());
+                DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+                out.writeBytes(jsonData.toString());
+                out.flush();
+                out.close();
+                // Handle the response from the (Lab09) server as usual.
+                if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(connection.getInputStream()));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        jsonText.append(line);
+                    }
+                    //Log.d(TAG, jsonText.toString());
+                    if (jsonText.charAt(0) == '[') {
+                        result = new JSONArray(jsonText.toString());
+                    } else if (jsonText.toString().equals("null")) {
+                        result = new JSONArray();
+                    } else {
+                        result = new JSONArray().put(new JSONObject(jsonText.toString()));
+                    }
+                } else {
+                    throw new Exception();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+            }
+            return result;
+        }
+    }
+
+    static JSONArray postDataToServer(JSONObject jsonObject) {
+        return new PostPlayerTask().doInBackground(jsonObject);
+    }
 
     @TargetApi(Build.VERSION_CODES.O)
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -44,8 +100,8 @@ public class NetworkUtils {
     @TargetApi(Build.VERSION_CODES.O)
     @RequiresApi(api = Build.VERSION_CODES.O)
     private static String getJSONStringFromURI(String uri, String queryString) {
-        HttpURLConnection urlConnection = null;
 
+        HttpURLConnection urlConnection = null;
         String jsonString = null;
         try {
             Uri builtURI = Uri.parse(uri).buildUpon()

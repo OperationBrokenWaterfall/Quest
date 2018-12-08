@@ -21,10 +21,19 @@ import android.widget.Toast;
 
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.Permission;
 import java.security.Permissions;
 
+import teamb.cs262.calvin.edu.quest.LocationPoster;
+import teamb.cs262.calvin.edu.quest.NetworkUtils;
 import teamb.cs262.calvin.edu.quest.R;
+import teamb.cs262.calvin.edu.quest.TeamsActivity;
 
 
 /**
@@ -146,13 +155,35 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
 
     /**
      * Called when a QR is decoded
+     * Operations:
+     *      If the scanned QR code is valid
+     *          Post the location visit to the database
+     *      Else
+     *          Do nothing
+     *      Send QR code text to the Task List so it can disable the appropriate image
+     *      Switch to either the Task List or the Leaderboard
      *
      * @param text : the text encoded in QR code
      * @param points : points where QR control points are placed in View
      */
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
-        Fragment fragment = LeaderBoardFragment.getInstance();
+        try {
+            postToDatabase(text);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        sendDataToTaskList(text);
+    }
+
+    private void postToDatabase(String locationText) throws JSONException, MalformedURLException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name", TeamsActivity.TEAM_NAME).put("location", locationText);
+        new LocationPoster(jsonObject).execute(new URL(NetworkUtils.BASE_URL)).getStatus();
+    }
+
+    private void sendDataToTaskList(String text) {
+        Fragment fragment = TaskListFragment.getInstance();
         Bundle bundle = new Bundle();
         bundle.putString("QR", text);
         fragment.setArguments(bundle);
@@ -161,8 +192,9 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
         fragmentTransaction.replace(R.id.container, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-        nav.setSelectedItemId(R.id.leaderboard_fragment);
+        nav.setSelectedItemId(R.id.task_list_fragment);
     }
+
 
     @Override
     public void onResume() {
