@@ -5,7 +5,9 @@ import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.graphics.PointF;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -46,8 +48,6 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
     private final int CAMERA_PERMISSION_REQUEST = 7;
 
     private static QRCodeFragment instance; // singleton instance
-
-    private Integer gridSize; // number of images in gridView
 
     @SuppressLint("ValidFragment")
     private QRCodeFragment() {
@@ -156,6 +156,7 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
      * @param text : the text encoded in QR code
      * @param points : points where QR control points are placed in View
      */
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
 
@@ -165,23 +166,8 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
         fragment.setArguments(bundle);
 
         if (locationCodes.containsKey(text)) {
-            LayoutInflater inflater = getLayoutInflater();
-            View myView = inflater.inflate(R.layout.fragment_task_list, null);
-            GridView grid = (GridView) myView.findViewById(R.id.gridview);
-
-            gridSize = grid.getChildCount();
-            Integer position = locationCodes.get(text);
-            for(int i = 0; i < position; i++) {
-                ViewGroup gridChild = (ViewGroup) grid.getChildAt(i);
-                int childSize = gridChild.getChildCount();
-                for(int k = 0; k < childSize; k++) {
-                    if( gridChild.getChildAt(k) instanceof ImageView ) {
-                        gridChild.getChildAt(k).setAlpha(65);
-                    }
-                }
-            }
             locationCodes.remove(text);
-        } else {
+        } else if (!locationCodes.containsKey(text)) {
             Toast.makeText(getContext(), "location already found", Toast.LENGTH_SHORT).show();
         }
 

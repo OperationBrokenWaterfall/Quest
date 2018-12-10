@@ -18,6 +18,8 @@ import java.util.ArrayList;
 
 import teamb.cs262.calvin.edu.quest.fragments.ImageAdapter;
 
+import static teamb.cs262.calvin.edu.quest.fragments.TaskListFragment.locationKeys;
+
 /**
  * This class expands the thumbnail images that are in the recyclerView in the TaskListFragment.
  * The images are opened in a new activity and displayed in a imageView that takes up the whole
@@ -41,7 +43,7 @@ public class SingleViewActivity extends AppCompatActivity implements GestureDete
         // Selected image id
         position = bundle.getInt("id");
         mImageUrls = bundle.getStringArrayList("urls");
-        ImageAdapter imageAdapter = new ImageAdapter(getApplicationContext(), mImageUrls);
+        ImageAdapter imageAdapter = new ImageAdapter(getApplicationContext(), mImageUrls, locationKeys);
 
         imageView = (ImageView) findViewById(R.id.SingleView);
 

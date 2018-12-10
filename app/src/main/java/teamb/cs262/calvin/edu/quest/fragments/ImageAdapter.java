@@ -21,16 +21,17 @@ import java.util.ArrayList;
 
 import teamb.cs262.calvin.edu.quest.R;
 
+import static teamb.cs262.calvin.edu.quest.fragments.TaskListFragment.locationCodes;
+import static teamb.cs262.calvin.edu.quest.fragments.TaskListFragment.locationKeys;
+
 
 public class ImageAdapter extends BaseAdapter {
+
     private Context mContext;
-
-
     private ArrayList<String> mImageUrls;
 
-
     // Constructor
-    public ImageAdapter(Context c, ArrayList images) {
+    public ImageAdapter(Context c, ArrayList images, String[] locationKeys) {
         mContext = c;
         mImageUrls = images;
     }
@@ -56,7 +57,10 @@ public class ImageAdapter extends BaseAdapter {
             imageView.setLayoutParams(new GridView.LayoutParams(520, 520));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(4, 4, 4, 4);
-            imageView.setId(position);
+            if (!locationCodes.containsKey(locationKeys[position])) {
+                imageView.setAlpha(55);
+                imageView.setOnClickListener(null);
+            }
         }
         else
         {

@@ -39,6 +39,7 @@ public class TaskListFragment extends Fragment {
 
     private ArrayList<String> mImageUrls = new ArrayList<>(); // store the image urls
 
+    // Dictionary to check locations visited
     static Map<String, Integer> locationCodes = new HashMap<String, Integer>() {{
         put("pencils", 0);
         put("seniors", 1);
@@ -54,6 +55,11 @@ public class TaskListFragment extends Fragment {
         put("maroon 20", 11);
         put("maroon printer", 12);
     }};
+
+    public static String[] locationKeys = {"pencils", "seniors", "coke machine", "chair 68",
+                                    "random dude", "aquarium", "boxes within boxes", "clock",
+                                    "film set", "neon dove", "life jacket", "maroon 20",
+                                    "maroon printer"};
 
 
     private static TaskListFragment instance; // singleton instance
@@ -105,8 +111,8 @@ public class TaskListFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_task_list, container, false);
 
-        GridView gridview = (GridView) rootView.findViewById(R.id.gridview);
-        gridview.setAdapter(new ImageAdapter(getContext(), mImageUrls));
+        GridView gridview = (GridView) rootView.findViewById(R.id.gridView);
+        gridview.setAdapter(new ImageAdapter(getContext(), mImageUrls, locationKeys));
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent,
@@ -141,7 +147,7 @@ public class TaskListFragment extends Fragment {
         Bundle bundle = getArguments();
         if(bundle != null) {
             System.out.println("Task List has received this deciphered QR Code: " + bundle.getString("QR"));
-            Toast.makeText(getContext(), bundle.getString("QR"), Toast.LENGTH_LONG).show();
+            //Toast.makeText(getContext(), bundle.getString("QR"), Toast.LENGTH_LONG).show();
 
             Vibrator v = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
             // Vibrate for 500 milliseconds
@@ -224,10 +230,10 @@ public class TaskListFragment extends Fragment {
             mImageUrls.add("https://i.postimg.cc/J7PVtyMc/IMG-20181120-124549582.jpg");
         }
 
-        // maroon printer
-        if (!mImageUrls.contains("https://i.postimg.cc/HLQFmn6M/IMG-20181120-124600818.jpg")) {
-            mImageUrls.add("https://i.postimg.cc/HLQFmn6M/IMG-20181120-124600818.jpg");
-        }
+//        // maroon printer
+//        if (!mImageUrls.contains("https://i.postimg.cc/HLQFmn6M/IMG-20181120-124600818.jpg")) {
+//            mImageUrls.add("https://i.postimg.cc/HLQFmn6M/IMG-20181120-124600818.jpg");
+//        }
     }
 
 }
