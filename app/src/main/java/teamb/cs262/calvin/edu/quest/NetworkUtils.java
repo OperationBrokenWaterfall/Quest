@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.JsonReader;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -17,7 +18,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.List;
 
 
 public class NetworkUtils {
@@ -32,10 +36,9 @@ public class NetworkUtils {
     static String getDatabaseJSON(String queryString){
 
             String jsonString = getJSONStringFromURI(BASE_URL, queryString);
+
             Log.d(LOG_TAG, jsonString);
             return jsonString;
-
-
     }
 
     @TargetApi(Build.VERSION_CODES.O)
@@ -64,33 +67,67 @@ public class NetworkUtils {
                 urlConnection.disconnect();
             }
         }
+        return createJSONResultFromServerResponse(jsonString);
+    }
+
+    private static String createJSONResultFromServerResponse(String jsonString) {
         JSONObject result = null;
         try {
-            JSONObject json = new JSONObject();
-            json.put("team", "Team A");
-            json.put("score", 10);
-            JSONObject json2 = new JSONObject();
-            json2.put("team", "Team B");
-            json2.put("score", 2);
-            JSONObject json3 = new JSONObject();
-            json3.put("team", "Team C");
-            json3.put("score", 7);
-            JSONObject json4 = new JSONObject();
-            json4.put("team", "Team D");
-            json4.put("score", 5);
-            JSONArray items = new JSONArray();
-            items.put(json);
-            items.put(json2);
-            items.put(json3);
-            items.put(json4);
-            result = new JSONObject().put("items", items);
+            result = new JSONObject(jsonString);
+            JSONArray itemsFromServer = result.getJSONArray("items");
+            JSONArray resultArray = new JSONArray();
+            List<String> teams = getTeamsFromServerArray(itemsFromServer);
+            for(int i = 0; i < teams.size(); i++) {
+                String teamName = teams.get(i);
+                int score = calculateScoreFromServerArray(teamName, itemsFromServer);
+                JSONObject jsonObject = createTeamScoreJSONObject(teamName, score);
+                resultArray.put(jsonObject);
+            }
+
+            result = new JSONObject().put("items", resultArray);
 
         } catch(JSONException jsonException) {
             jsonException.printStackTrace();
             result = new JSONObject();
         }
-        jsonString = result.toString();
-        return jsonString;
+        return result.toString();
+    }
+
+
+    private static List<String> getTeamsFromServerArray(JSONArray array) throws JSONException {
+        List<String> teams = new ArrayList<String>();
+        for(int i = 0; i < array.length(); i++) {
+            JSONObject entry = array.getJSONObject(i);
+            String teamName = entry.getString("name");
+            if(!teams.contains(teamName)) {
+                teams.add(teamName);
+            }
+        }
+        Log.d("Teams in Game", Arrays.toString(teams.toArray()));
+        return teams;
+    }
+
+    private static int calculateScoreFromServerArray(String name, JSONArray array) throws JSONException {
+        int score = 0;
+        List<String> locations = new ArrayList<String>();
+        for(int i = 0; i < array.length(); i++) {
+            JSONObject entry = array.getJSONObject(i);
+            if(entry.getString("name").equals(name)) {
+                if(entry.has("location")) {
+                    String location = entry.getString("location");
+                    if(!locations.contains(location)) {
+                        locations.add(location);
+                        score++;
+                    }
+                }
+            }
+        }
+        Log.d("Score for " + name, String.valueOf(score));
+        return score;
+    }
+
+    private static JSONObject createTeamScoreJSONObject(String name, int score) throws JSONException {
+        return new JSONObject().put("team", name).put("score", score);
     }
 
     private static String getResponseFromConnection(URLConnection urlConnection) {
