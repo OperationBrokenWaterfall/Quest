@@ -19,6 +19,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,12 +34,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.Permission;
 import java.security.Permissions;
-import java.util.Random;
+import java.util.ArrayList;
 
 import teamb.cs262.calvin.edu.quest.LocationPoster;
 import teamb.cs262.calvin.edu.quest.NetworkUtils;
 import teamb.cs262.calvin.edu.quest.R;
 import teamb.cs262.calvin.edu.quest.TeamsActivity;
+
+import static teamb.cs262.calvin.edu.quest.fragments.TaskListFragment.locationCodes;
 
 
 /**
@@ -47,13 +51,12 @@ import teamb.cs262.calvin.edu.quest.TeamsActivity;
  */
 public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCodeReadListener {
 
-    private TextView resultTextView;
     private QRCodeReaderView qrCodeReaderView;
-
     private BottomNavigationView nav;
-
     private final int CAMERA_PERMISSION_REQUEST = 7;
-
+    public static String qrText;
+    public static int globPosition;
+    ImageView imageView;
     private static QRCodeFragment instance; // singleton instance
 
     @SuppressLint("ValidFragment")
@@ -100,7 +103,6 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
             Log.d("Permissions", "Already Granted");
             // Permission has already been granted
         }
-
     }
 
     @Override
@@ -157,6 +159,7 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
         qrCodeReaderView.setBackCamera();
 
         qrCodeReaderView.startCamera();
+
     }
 
 
@@ -174,6 +177,7 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
      * @param text : the text encoded in QR code
      * @param points : points where QR control points are placed in View
      */
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
@@ -199,14 +203,23 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
         Bundle bundle = new Bundle();
         bundle.putString("QR", text);
         fragment.setArguments(bundle);
+
+        qrText = text;
+
+        try {
+            globPosition = locationCodes.get(text);
+            locationCodes.remove(text);
+        } catch (Exception e) {
+            bundle.putString("cheater", "confirmed");
+        }
+
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-        nav.setSelectedItemId(R.id.task_list_fragment);
+        nav.setSelectedItemId(R.id.leaderboard_fragment);
     }
-
 
     @Override
     public void onResume() {

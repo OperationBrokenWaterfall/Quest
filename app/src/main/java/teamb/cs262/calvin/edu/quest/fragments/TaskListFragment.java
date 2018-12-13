@@ -16,13 +16,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import teamb.cs262.calvin.edu.quest.R;
 import teamb.cs262.calvin.edu.quest.SingleViewActivity;
+
+import static android.widget.Toast.LENGTH_SHORT;
 
 /**
  * TaskListFragment is a singleton
@@ -34,7 +39,30 @@ public class TaskListFragment extends Fragment {
 
     private static final String TAG = "TaskListFragment";
 
-    private ArrayList<String> mImageUrls = new ArrayList<>(); // store the image urls
+    // Dictionary to check locations visited
+    public static Map<String, Integer> locationCodes = new HashMap<String, Integer>() {{
+        put("pencils", 0);
+        put("seniors", 1);
+        put("cokeMachine", 2);
+        put("chair68", 3);
+        put("randomDude", 4);
+        put("aquarium", 5);
+        put("boxesWithinBoxes", 6);
+        put("clock", 7);
+        put("filmSet", 8);
+        put("neonDove", 9);
+        put("lifeJacket", 10);
+        put("maroon20", 11);
+        put("maroonPrinter", 12);
+        put("vanderLinden", 13);
+        put("fireCode", 14);
+        put("fish", 15);
+    }};
+
+    public static String[] locationKeys = {"pencils", "seniors", "cokeMachine", "chair68",
+            "randomDude", "aquarium", "boxesWithinBoxes", "clock",
+            "filmSet", "neonDove", "lifeJacket", "maroon20",
+            "maroonPrinter", "vanderLinden", "fireCode", "fish"};
 
     private static TaskListFragment instance; // singleton instance
 
@@ -67,8 +95,6 @@ public class TaskListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
-        initImageBitmaps();
     }
 
     /**
@@ -85,24 +111,16 @@ public class TaskListFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_task_list, container, false);
 
-        GridView gridview = (GridView) rootView.findViewById(R.id.gridview);
-        gridview.setAdapter(new ImageAdapter(getContext(), mImageUrls));
+        GridView gridview = (GridView) rootView.findViewById(R.id.gridView);
+        gridview.setAdapter(new ImageAdapter(getContext()));
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent,
                                     View v, int position, long id){
-                //Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
 
                 // Send intent to SingleViewActivity
                 Intent i = new Intent(getContext(), SingleViewActivity.class);
-                // Pass image index
-                Bundle bundle = new Bundle();
-
-                bundle.putInt("id", position);
-                bundle.putStringArrayList("urls", mImageUrls);
-
-                i.putExtras(bundle);
-
+                i.putExtra("id", position);
                 startActivity(i);
             }
         });
@@ -121,7 +139,7 @@ public class TaskListFragment extends Fragment {
         Bundle bundle = getArguments();
         if(bundle != null) {
             System.out.println("Task List has received this deciphered QR Code: " + bundle.getString("QR"));
-            Toast.makeText(getContext(), bundle.getString("QR"), Toast.LENGTH_LONG).show();
+            //Toast.makeText(getContext(), bundle.getString("QR"), Toast.LENGTH_LONG).show();
 
             Vibrator v = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
             // Vibrate for 500 milliseconds
@@ -135,63 +153,4 @@ public class TaskListFragment extends Fragment {
         }
     }
 
-
-    /**
-     * Create the arraylist of the images we are using for the scavenger hunt.
-     * The images are hosted at: https://postimg.cc/gallery/fsqlmqli/
-     * Our application pulls in these images using the Glide library.
-     */
-    private void initImageBitmaps() {
-        Log.d(TAG, "initImageBitmaps");
-
-        if (!mImageUrls.contains("https://i.postimg.cc/rw7J4zfv/image.jpg")) {
-            mImageUrls.add("https://i.postimg.cc/rw7J4zfv/image.jpg");
-        }
-
-        if (!mImageUrls.contains("https://i.postimg.cc/JhJQ5mgt/image-1.jpg")) {
-            mImageUrls.add("https://i.postimg.cc/JhJQ5mgt/image-1.jpg");
-        }
-
-        if (!mImageUrls.contains("https://i.postimg.cc/bJh96Wcg/image-2.jpg")) {
-            mImageUrls.add("https://i.postimg.cc/bJh96Wcg/image-2.jpg");
-        }
-
-        if (!mImageUrls.contains("https://i.postimg.cc/sgMm154Y/image-3.jpg")) {
-            mImageUrls.add("https://i.postimg.cc/sgMm154Y/image-3.jpg");
-        }
-
-        if (!mImageUrls.contains("https://i.postimg.cc/yd3CPJKc/IMG-20181101-100434246.jpg")) {
-            mImageUrls.add("https://i.postimg.cc/yd3CPJKc/IMG-20181101-100434246.jpg");
-        }
-
-        if (!mImageUrls.contains("https://i.postimg.cc/RVBx7VDJ/IMG-20181101-180824927.jpg")) {
-            mImageUrls.add("https://i.postimg.cc/RVBx7VDJ/IMG-20181101-180824927.jpg");
-        }
-
-        if (!mImageUrls.contains("https://i.postimg.cc/8ch82qjC/IMG-20181101-180954395.jpg")) {
-            mImageUrls.add("https://i.postimg.cc/8ch82qjC/IMG-20181101-180954395.jpg");
-        }
-
-        if (!mImageUrls.contains("https://i.postimg.cc/MHk2rWZ4/IMG-20181101-181328330.jpg")) {
-            mImageUrls.add("https://i.postimg.cc/MHk2rWZ4/IMG-20181101-181328330.jpg");
-        }
-
-        if (!mImageUrls.contains("https://i.postimg.cc/MHk2rWZ4/IMG-20181101-181328330.jpg")) {
-            mImageUrls.add("https://i.postimg.cc/MHk2rWZ4/IMG-20181101-181328330.jpg");
-        }
-
-        if (!mImageUrls.contains("https://i.postimg.cc/DyPkBk9j/IMG-20181101-181507293.jpg")) {
-            mImageUrls.add("https://i.postimg.cc/DyPkBk9j/IMG-20181101-181507293.jpg");
-        }
-
-        if (!mImageUrls.contains("https://i.postimg.cc/1R6ZVNJZ/IMG-20181101-181621138.jpg")) {
-            mImageUrls.add("https://i.postimg.cc/1R6ZVNJZ/IMG-20181101-181621138.jpg");
-        }
-
-        if (!mImageUrls.contains("https://i.postimg.cc/mr5GCYvT/IMG-20181101-182303299.jpg")) {
-            mImageUrls.add("https://i.postimg.cc/mr5GCYvT/IMG-20181101-182303299.jpg");
-        }
-    }
-
 }
-
