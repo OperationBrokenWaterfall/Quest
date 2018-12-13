@@ -55,12 +55,14 @@ public class TaskListFragment extends Fragment {
         put("maroon20", 11);
         put("maroonPrinter", 12);
         put("vanderLinden", 13);
+        put("fireCode", 14);
+        put("fish", 15);
     }};
 
     public static String[] locationKeys = {"pencils", "seniors", "cokeMachine", "chair68",
             "randomDude", "aquarium", "boxesWithinBoxes", "clock",
             "filmSet", "neonDove", "lifeJacket", "maroon20",
-            "maroonPrinter", "vanderLinden"};
+            "maroonPrinter", "vanderLinden", "fireCode", "fish"};
 
     private static TaskListFragment instance; // singleton instance
 
