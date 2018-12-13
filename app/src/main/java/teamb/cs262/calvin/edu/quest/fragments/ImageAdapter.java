@@ -51,7 +51,9 @@ public class ImageAdapter extends BaseAdapter {
             "https://i.postimg.cc/sgMm154Y/image-3.jpg",
             "https://i.postimg.cc/J7PVtyMc/IMG-20181120-124549582.jpg",
             "https://i.postimg.cc/HLQFmn6M/IMG-20181120-124600818.jpg",
-            "https://i.postimg.cc/x1Q7c8P4/IMG-20181212-140108428.jpg"
+            "https://i.postimg.cc/x1Q7c8P4/IMG-20181212-140108428.jpg",
+            "https://i.postimg.cc/YSbpq2XB/IMG-20181212-202205352-BURST001.jpg",
+            "https://i.postimg.cc/hGSDBQ10/IMG-20181212-202119963.jpg"
     };
 
     // Constructor
