@@ -5,7 +5,9 @@ import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.graphics.PointF;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -16,6 +18,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,8 +27,11 @@ import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 
 import java.security.Permission;
 import java.security.Permissions;
+import java.util.ArrayList;
 
 import teamb.cs262.calvin.edu.quest.R;
+
+import static teamb.cs262.calvin.edu.quest.fragments.TaskListFragment.locationCodes;
 
 
 /**
@@ -34,13 +41,12 @@ import teamb.cs262.calvin.edu.quest.R;
  */
 public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCodeReadListener {
 
-    private TextView resultTextView;
     private QRCodeReaderView qrCodeReaderView;
-
     private BottomNavigationView nav;
-
     private final int CAMERA_PERMISSION_REQUEST = 7;
-
+    public static String qrText;
+    public static int globPosition;
+    ImageView imageView;
     private static QRCodeFragment instance; // singleton instance
 
     @SuppressLint("ValidFragment")
@@ -143,19 +149,29 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
     }
 
 
-
     /**
      * Called when a QR is decoded
      *
      * @param text : the text encoded in QR code
      * @param points : points where QR control points are placed in View
      */
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
         Fragment fragment = LeaderBoardFragment.getInstance();
         Bundle bundle = new Bundle();
         bundle.putString("QR", text);
         fragment.setArguments(bundle);
+
+        qrText = text;
+
+        try {
+            globPosition = locationCodes.get(text);
+            locationCodes.remove(text);
+        } catch (Exception e) {
+            bundle.putString("cheater", "confirmed");
+        }
+
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment);
@@ -175,5 +191,6 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
         super.onPause();
         qrCodeReaderView.stopCamera();
     }
+
 }
 
