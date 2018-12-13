@@ -2,6 +2,7 @@ package teamb.cs262.calvin.edu.quest;
 
 import android.annotation.TargetApi;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.JsonReader;
@@ -12,9 +13,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -28,15 +33,80 @@ public class NetworkUtils {
 
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
 
-    private static final String BASE_URL =  "https://cs262-teamb-fall2018.appspot.com/questapp/v1/game"; // Base URI for the Google Cloud API
+    public static final String BASE_URL =  "https://cs262-teamb-fall2018.appspot.com/questapp/v1/game"; // Base URI for the Google Cloud API
+    public static final String POST_URL =  "https://cs262-teamb-fall2018.appspot.com/questapp/v1/gamePost"; // Base URI for the Google Cloud API
 
+
+    private static class PostPlayerTask extends AsyncTask<JSONObject, Void, JSONArray> {
+
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        @Override
+        protected JSONArray doInBackground(JSONObject... params) {
+            HttpURLConnection connection = null;
+            StringBuilder jsonText = new StringBuilder();
+            JSONArray result = null;
+            try {
+                // Open the connection as usual.
+                JSONObject jsonData = params[0];
+                Uri uri = Uri.parse(POST_URL).buildUpon().appendQueryParameter("name", jsonData.getString("name")).appendQueryParameter("location", jsonData.getString("location")).build();
+                connection = (HttpURLConnection) new URL(uri.toString()).openConnection();
+                // Configure the connection for a POST, including outputing streamed JSON data.
+                connection.setDoOutput(true);
+                connection.setRequestMethod("POST");
+                String userpass = "postgres:Quest";
+                byte[] login = Base64.getEncoder().encode(userpass.getBytes());
+                String basicAuth = "Basic " + new String(login);
+                connection.setRequestProperty("Authorization", basicAuth);
+                connection.setFixedLengthStreamingMode(jsonData.toString().length());
+                OutputStream out =connection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
+                writer.write(jsonData.toString());
+                writer.flush();
+                writer.close();
+                out.close();
+                connection.connect();
+                Log.d("Connection", connection.getResponseMessage());
+                Log.d("Connection", String.valueOf(connection.getResponseCode()));
+                // Handle the response from the (Lab09) server as usual.
+                if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(connection.getInputStream()));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        jsonText.append(line);
+                    }
+                    //Log.d(TAG, jsonText.toString());
+                    if (jsonText.charAt(0) == '[') {
+                        result = new JSONArray(jsonText.toString());
+                    } else if (jsonText.toString().equals("null")) {
+                        result = new JSONArray();
+                    } else {
+                        result = new JSONArray().put(new JSONObject(jsonText.toString()));
+                    }
+                } else {
+                    throw new Exception();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+            }
+            return result;
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static void postDataToServer(JSONObject jsonObject) {
+        new PostPlayerTask().execute(jsonObject);
+    }
 
     @TargetApi(Build.VERSION_CODES.O)
     @RequiresApi(api = Build.VERSION_CODES.O)
     static String getDatabaseJSON(String queryString){
 
             String jsonString = getJSONStringFromURI(BASE_URL, queryString);
-
             Log.d(LOG_TAG, jsonString);
             return jsonString;
     }
@@ -44,8 +114,8 @@ public class NetworkUtils {
     @TargetApi(Build.VERSION_CODES.O)
     @RequiresApi(api = Build.VERSION_CODES.O)
     private static String getJSONStringFromURI(String uri, String queryString) {
-        HttpURLConnection urlConnection = null;
 
+        HttpURLConnection urlConnection = null;
         String jsonString = null;
         try {
             Uri builtURI = Uri.parse(uri).buildUpon()
@@ -54,7 +124,8 @@ public class NetworkUtils {
             urlConnection = (HttpURLConnection) requestURL.openConnection();
             urlConnection.setRequestMethod("GET");
             String userpass = "postgres:Quest";
-            String basicAuth = "Basic " + new String(Base64.getEncoder().encode(userpass.getBytes()));
+            byte[] login = Base64.getEncoder().encode(userpass.getBytes());
+            String basicAuth = "Basic " + new String(login);
             urlConnection.setRequestProperty("Authorization", basicAuth);
             urlConnection.connect();
             jsonString = getResponseFromConnection(urlConnection);
