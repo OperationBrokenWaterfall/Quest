@@ -2,10 +2,13 @@ package teamb.cs262.calvin.edu.quest.fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
 import android.graphics.PointF;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -29,6 +32,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.Permission;
 import java.security.Permissions;
+import java.util.Random;
 
 import teamb.cs262.calvin.edu.quest.LocationPoster;
 import teamb.cs262.calvin.edu.quest.NetworkUtils;
@@ -96,6 +100,7 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
             Log.d("Permissions", "Already Granted");
             // Permission has already been granted
         }
+
     }
 
     @Override
@@ -114,6 +119,8 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.O)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -129,6 +136,8 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
         return rootView;
     }
 
+    @TargetApi(Build.VERSION_CODES.O)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void launchCamera() {
         qrCodeReaderView.setOnQRCodeReadListener(this);
 
@@ -148,7 +157,6 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
         qrCodeReaderView.setBackCamera();
 
         qrCodeReaderView.startCamera();
-
     }
 
 
@@ -166,6 +174,7 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
      * @param text : the text encoded in QR code
      * @param points : points where QR control points are placed in View
      */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
         try {
@@ -176,10 +185,13 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
         sendDataToTaskList(text);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void postToDatabase(String locationText) throws JSONException, MalformedURLException {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("name", TeamsActivity.TEAM_NAME).put("location", locationText);
-        new LocationPoster(jsonObject).execute(new URL(NetworkUtils.BASE_URL)).getStatus();
+        //new LocationPoster(jsonObject).execute(new URL(NetworkUtils.BASE_URL)).getStatus();
+
+        NetworkUtils.postDataToServer(jsonObject);
     }
 
     private void sendDataToTaskList(String text) {
