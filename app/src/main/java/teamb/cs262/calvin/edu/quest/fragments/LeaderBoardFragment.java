@@ -164,7 +164,11 @@ public class LeaderBoardFragment extends Fragment {
             score.setText(String.valueOf(score_value));
 
             System.out.println("Task List has received this deciphered QR Code: " + bundle.getString("QR"));
-            Toast.makeText(getContext(), bundle.getString("QR"), Toast.LENGTH_LONG).show();
+            if (bundle.containsKey("cheater")) {
+                Toast.makeText(getContext(), "Invalid: No Cheating", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "Location Confirmed + 1", Toast.LENGTH_LONG).show();
+            }
 
             Vibrator v = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
             // Vibrate for 500 milliseconds
