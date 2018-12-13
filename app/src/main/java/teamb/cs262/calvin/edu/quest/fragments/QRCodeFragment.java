@@ -177,12 +177,14 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
      * @param text : the text encoded in QR code
      * @param points : points where QR control points are placed in View
      */
+    @TargetApi(Build.VERSION_CODES.O)
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
         try {
-            postToDatabase(text);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                postToDatabase(text);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -218,7 +220,7 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
         fragmentTransaction.replace(R.id.container, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-        nav.setSelectedItemId(R.id.leaderboard_fragment);
+        nav.setSelectedItemId(R.id.task_list_fragment);
     }
 
     @Override
