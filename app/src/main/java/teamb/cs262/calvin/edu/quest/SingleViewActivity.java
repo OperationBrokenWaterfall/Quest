@@ -2,6 +2,7 @@ package teamb.cs262.calvin.edu.quest;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +19,10 @@ import java.util.ArrayList;
 
 import teamb.cs262.calvin.edu.quest.fragments.ImageAdapter;
 
+import static teamb.cs262.calvin.edu.quest.fragments.ImageAdapter.mThumbIds;
+import static teamb.cs262.calvin.edu.quest.fragments.TaskListFragment.locationCodes;
 import static teamb.cs262.calvin.edu.quest.fragments.TaskListFragment.locationKeys;
+
 
 /**
  * This class expands the thumbnail images that are in the recyclerView in the TaskListFragment.
@@ -27,10 +31,9 @@ import static teamb.cs262.calvin.edu.quest.fragments.TaskListFragment.locationKe
  */
 public class SingleViewActivity extends AppCompatActivity implements GestureDetector.OnGestureListener, View.OnTouchListener {
 
-    private ArrayList<String> mImageUrls;
     GestureDetector gestureDetector;
     private int position;
-    private ImageView imageView;
+    ImageView imageView;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,20 +41,17 @@ public class SingleViewActivity extends AppCompatActivity implements GestureDete
 
         // Get intent and bundle data
         Intent i = getIntent();
-        Bundle bundle = i.getExtras();
-
-        // Selected image id
-        position = bundle.getInt("id");
-        mImageUrls = bundle.getStringArrayList("urls");
-        ImageAdapter imageAdapter = new ImageAdapter(getApplicationContext(), mImageUrls, locationKeys);
+        position = i.getExtras().getInt("id");
+        ImageAdapter imageAdapter = new ImageAdapter(this);
 
         imageView = (ImageView) findViewById(R.id.SingleView);
-
+        if (visited(position)) {
+            imageView.setAlpha(50);
+        } else { imageView.setAlpha(255); }
         gestureDetector = new GestureDetector(SingleViewActivity.this, SingleViewActivity.this);
-
         Glide.with(getApplicationContext())
                 .asBitmap()
-                .load(mImageUrls.get(position))
+                .load(mThumbIds[position])
                 .into(imageView);
     }
 
@@ -98,17 +98,23 @@ public class SingleViewActivity extends AppCompatActivity implements GestureDete
     public boolean onFling(MotionEvent motionEvent1, MotionEvent motionEvent2, float X, float Y) {
         //Swiped from right to left
         if(motionEvent1.getX() - motionEvent2.getX() > 30){
-            if (position != mImageUrls.size() - 1) {
+            if (position != mThumbIds.length - 1) {
                 Glide.with(this)
                         .asBitmap()
-                        .load(mImageUrls.get(++position))
+                        .load(mThumbIds[++position])
                         .into(imageView);
+                if (visited(position)) {
+                    imageView.setAlpha(50);
+                } else { imageView.setAlpha(255); }
             } else {
                 position = 0;
                 Glide.with(this)
                         .asBitmap()
-                        .load(mImageUrls.get(position))
+                        .load(mThumbIds[position])
                         .into(imageView);
+                if (visited(position)) {
+                    imageView.setAlpha(50);
+                } else { imageView.setAlpha(255); }
             }
             return true;
         }
@@ -118,14 +124,20 @@ public class SingleViewActivity extends AppCompatActivity implements GestureDete
             if (position != 0) {
                 Glide.with(this)
                         .asBitmap()
-                        .load(mImageUrls.get(--position))
+                        .load(mThumbIds[--position])
                         .into(imageView);
+                if (visited(position)) {
+                    imageView.setAlpha(50);
+                } else { imageView.setAlpha(255); }
             } else {
-                position = mImageUrls.size() - 1;
+                position = mThumbIds.length - 1;
                 Glide.with(this)
                         .asBitmap()
-                        .load(mImageUrls.get(position))
+                        .load(mThumbIds[position])
                         .into(imageView);
+                if (visited(position)) {
+                    imageView.setAlpha(50);
+                } else { imageView.setAlpha(255); }
             }
             return true;
         }
@@ -136,6 +148,13 @@ public class SingleViewActivity extends AppCompatActivity implements GestureDete
         if(v==imageView)
             if(gestureDetector.onTouchEvent(event))
                 return true;
+        return false;
+    }
+
+    private boolean visited(int position) {
+        if (!locationCodes.containsKey(locationKeys[position])) {
+            return true;
+        }
         return false;
     }
 

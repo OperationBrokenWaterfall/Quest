@@ -27,6 +27,7 @@ import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 
 import java.security.Permission;
 import java.security.Permissions;
+import java.util.ArrayList;
 
 import teamb.cs262.calvin.edu.quest.R;
 
@@ -40,13 +41,12 @@ import static teamb.cs262.calvin.edu.quest.fragments.TaskListFragment.locationCo
  */
 public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCodeReadListener {
 
-    private TextView resultTextView;
     private QRCodeReaderView qrCodeReaderView;
-
     private BottomNavigationView nav;
-
     private final int CAMERA_PERMISSION_REQUEST = 7;
-
+    public static String qrText;
+    public static int globPosition;
+    ImageView imageView;
     private static QRCodeFragment instance; // singleton instance
 
     @SuppressLint("ValidFragment")
@@ -149,7 +149,6 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
     }
 
 
-
     /**
      * Called when a QR is decoded
      *
@@ -159,16 +158,18 @@ public class QRCodeFragment extends Fragment implements QRCodeReaderView.OnQRCod
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
-
         Fragment fragment = LeaderBoardFragment.getInstance();
         Bundle bundle = new Bundle();
         bundle.putString("QR", text);
         fragment.setArguments(bundle);
 
-        if (locationCodes.containsKey(text)) {
+        qrText = text;
+
+        try {
+            globPosition = locationCodes.get(text);
             locationCodes.remove(text);
-        } else if (!locationCodes.containsKey(text)) {
-            Toast.makeText(getContext(), "location already found", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            bundle.putString("cheater", "confirmed");
         }
 
         FragmentManager fragmentManager = getFragmentManager();
